@@ -30,3 +30,16 @@ Learning how to make multiplayer RTS
 
 ## Section 2 - RTS Game
 
+### Lesson 16 - Spawning Units
+
+#### Mirror
+- Player network object is empty
+- Spawner network object also belongs to a player
+- Spawned object uses Spawner connection to give authority to the right client.
+- Add spawner object as a new player gets added. conn.identity maps to the player object.
+
+#### Input System
+- Add EventSystem to scene for detecting IPointerClickHandler event.
+- Update EventSystem script (New Input System)
+- Add Physics Raycaster to camera
+
