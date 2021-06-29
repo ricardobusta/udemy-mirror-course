@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class Player : NetworkBehaviour
+namespace Rts.Networking
 {
+    public class Player : NetworkBehaviour
+    {
+    }
 }
