@@ -9,7 +9,7 @@ namespace Rts.Networking
     {
         [SerializeField] private NavMeshAgent agent;
 
-        private Camera mainCamera;
+        private Camera _mainCamera;
         
         #region Server
 
@@ -30,7 +30,7 @@ namespace Rts.Networking
 
         public override void OnStartAuthority()
         {
-            mainCamera = Camera.main;
+            _mainCamera = Camera.main;
         }
 
         [ClientCallback]
@@ -41,7 +41,7 @@ namespace Rts.Networking
                 return; 
             }
 
-            var ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            var ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             if (!Physics.Raycast(ray, out var hit, Mathf.Infinity))
             {
