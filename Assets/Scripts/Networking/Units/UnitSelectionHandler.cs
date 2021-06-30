@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ namespace Rts.Networking
 
         private Camera _mainCamera;
 
-        private List<Unit> _selectedUnits = new List<Unit>();
+        public List<Unit> selectedUnits = new List<Unit>();
 
         private void Start()
         {
@@ -21,11 +22,11 @@ namespace Rts.Networking
         {
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                foreach (var previousSelectedUnit in _selectedUnits)
+                foreach (var previousSelectedUnit in selectedUnits)
                 {
                     previousSelectedUnit.Select(false);
                 }
-                _selectedUnits.Clear();
+                selectedUnits.Clear();
             }
             else if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
@@ -35,9 +36,7 @@ namespace Rts.Networking
 
         private void ClearSelectionArea()
         {
-            var ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, layerMask))
+            if (!_mainCamera.RayCast(out var hit, maxDist: Mathf.Infinity, layerMask))
             {
                 return;
             }
@@ -52,9 +51,9 @@ namespace Rts.Networking
                 return;
             }
 
-            _selectedUnits.Add(unit);
+            selectedUnits.Add(unit);
 
-            foreach (var selectedUnit in _selectedUnits)
+            foreach (var selectedUnit in selectedUnits)
             {
                 selectedUnit.Select(true);
             }
