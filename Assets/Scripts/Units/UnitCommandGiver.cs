@@ -1,3 +1,4 @@
+using Combat;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
@@ -8,6 +9,7 @@ namespace Units
     {
         [SerializeField] private UnitSelectionHandler unitSelectionHandler;
         [SerializeField] private LayerMask layerMask;
+        [SerializeField] private Targeter targeter;
 
         private Camera _mainCamera;
 
@@ -28,6 +30,18 @@ namespace Units
                 return;
             }
 
+            if (hit.collider.TryGetComponent<Targetable>(out Targetable target))
+            {
+                if (target.hasAuthority)
+                {
+                    TryMove(hit.point);
+                    return;
+                }
+
+                TryTarget(target);
+                return;
+            }
+            
             TryMove(hit.point);
         }
 
@@ -36,6 +50,14 @@ namespace Units
             foreach (var unit in unitSelectionHandler.selectedUnits)
             {
                 unit.UnitMovement.CmdMove(point);
+            }
+        }
+        
+        private void TryTarget(Targetable target)
+        {
+            foreach (var unit in unitSelectionHandler.selectedUnits)
+            {
+                unit.Targeter.CmdSetTarget(target.gameObject);
             }
         }
     }
