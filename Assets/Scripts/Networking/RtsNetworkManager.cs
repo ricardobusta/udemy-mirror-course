@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
-namespace Rts.Networking
+namespace Networking
 {
     public class RtsNetworkManager : NetworkManager
     {

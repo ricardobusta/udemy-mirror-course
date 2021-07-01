@@ -29,6 +29,8 @@ public class Unit : NetworkBehaviour
 
    public override void OnStartClient()
    {
+      Select(false);
+
       if(!isClientOnly || !hasAuthority) { return; }
       OnAuthorityUnitSpawned?.Invoke(this);
    }
@@ -53,10 +55,5 @@ public class Unit : NetworkBehaviour
       UnitMovement = GetComponent<UnitMovement>();
    }
 
-   private void Start()
-   {
-      Select(false);
-   }
-   
    #endregion
 }

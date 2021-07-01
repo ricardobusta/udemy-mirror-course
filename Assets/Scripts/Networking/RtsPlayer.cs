@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 
-namespace Rts.Networking
+namespace Networking
 {
     public class RtsPlayer : NetworkBehaviour
     {
@@ -27,7 +26,7 @@ namespace Rts.Networking
                 return;
             }
             Unit.OnAuthorityUnitSpawned += AuthorityHandleUnitSpawned;
-            Unit.OnServerUnitDespawned += AuthorityHandleUnitDespawned;
+            Unit.OnAuthorityUnitDespawned += AuthorityHandleUnitDespawned;
         }
 
         public override void OnStopClient()
@@ -37,7 +36,7 @@ namespace Rts.Networking
                 return;
             }
             Unit.OnAuthorityUnitSpawned -= AuthorityHandleUnitSpawned;
-            Unit.OnServerUnitDespawned -= AuthorityHandleUnitDespawned;
+            Unit.OnAuthorityUnitDespawned -= AuthorityHandleUnitDespawned;
         }
 
 

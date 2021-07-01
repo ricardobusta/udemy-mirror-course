@@ -1,5 +1,4 @@
 using System;
-using DefaultNamespace;
 using Rts.Networking;
 using UnityEngine;
 using UnityEngine.InputSystem;
