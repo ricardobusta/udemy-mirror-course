@@ -1,9 +1,8 @@
 ﻿using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
-namespace Rts.Networking
+namespace Units
 {
     public class UnitMovement: NetworkBehaviour
     {

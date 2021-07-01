@@ -1,40 +1,42 @@
-using System;
-using Rts.Networking;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
-public class UnitCommandGiver : MonoBehaviour
+namespace Units
 {
-    [SerializeField] private UnitSelectionHandler unitSelectionHandler;
-    [SerializeField] private LayerMask layerMask;
-
-    private Camera _mainCamera;
-
-    private void Start()
+    public class UnitCommandGiver : MonoBehaviour
     {
-        _mainCamera = Camera.main;
-    }
+        [SerializeField] private UnitSelectionHandler unitSelectionHandler;
+        [SerializeField] private LayerMask layerMask;
 
-    private void Update()
-    {
-        if (!Mouse.current.rightButton.wasPressedThisFrame)
+        private Camera _mainCamera;
+
+        private void Start()
         {
-            return;
+            _mainCamera = Camera.main;
         }
 
-        if (!_mainCamera.RayCast(out var hit, Mathf.Infinity, layerMask))
+        private void Update()
         {
-            return;
+            if (!Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                return;
+            }
+
+            if (!_mainCamera.RayCast(out var hit, Mathf.Infinity, layerMask))
+            {
+                return;
+            }
+
+            TryMove(hit.point);
         }
 
-        TryMove(hit.point);
-    }
-
-    private void TryMove(Vector3 point)
-    {
-        foreach (var unit in unitSelectionHandler.selectedUnits)
+        private void TryMove(Vector3 point)
         {
-            unit.UnitMovement.CmdMove(point);
+            foreach (var unit in unitSelectionHandler.selectedUnits)
+            {
+                unit.UnitMovement.CmdMove(point);
+            }
         }
     }
 }
