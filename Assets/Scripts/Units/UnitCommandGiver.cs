@@ -30,14 +30,8 @@ namespace Units
                 return;
             }
 
-            if (hit.collider.TryGetComponent<Targetable>(out Targetable target))
+            if (hit.collider.TryGetComponent<Targetable>(out var target))
             {
-                if (target.hasAuthority)
-                {
-                    TryMove(hit.point);
-                    return;
-                }
-
                 TryTarget(target);
                 return;
             }

@@ -5,10 +5,11 @@ namespace Combat
 {
     public class Targeter : NetworkBehaviour
     {
-        [SerializeField] private Targetable target;
-        
+        public Targetable Target { get; private set; }
+        public bool HasTarget { get; private set; }
+
         #region Server
-        
+
         [Command]
         public void CmdSetTarget(GameObject targetGameObject)
         {
@@ -20,20 +21,21 @@ namespace Combat
             }
 
             Debug.Log($"Target found {targetGameObject.name}");
-            target = newTarget;
+
+            Target = newTarget;
+            HasTarget = true;
         }
 
         [Server]
         public void ClearTarget()
         {
-            target = null;
+            Target = null;
+            HasTarget = false;
         }
-        
+
         #endregion Server
 
         #region Client
-
-        
 
         #endregion Client
     }
