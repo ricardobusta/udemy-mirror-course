@@ -11,18 +11,11 @@ namespace Combat
         [SerializeField] private Health health;
         [SerializeField] private GameObject healthBarParent;
         [SerializeField] private Image healthBar;
-
-        private Camera _mainCamera;
         
         private void Awake()
         {
             health.ClientOnHealthChanged += UpdateHealth;
             healthBarParent.SetActive(false);
-        }
-
-        private void Start()
-        {
-            _mainCamera = Camera.main;
         }
 
         private void OnDestroy()
@@ -43,11 +36,6 @@ namespace Combat
         public void OnPointerExit(PointerEventData eventData)
         {
             healthBarParent.SetActive(false);
-        }
-
-        private void Update()
-        {
-            healthBarParent.transform.rotation = _mainCamera.transform.rotation;
         }
     }
 }
