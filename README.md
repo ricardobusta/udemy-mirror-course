@@ -48,6 +48,12 @@ Learning how to make multiplayer RTS
 - Code running on the server in a component that also exist in client -> NetworkBehaviour
 - Adding prefix Cmd and Rpc to remote methods help a lot on code readability.
 - connectionToClient in NetworkBehaviour is a good way to figure out if objects belong to the same user
+- Network manager has a `singleton` access.
+
+#### Authority
+
+- Also has OnStartAuthority and OnStopAuthority callbacks
+  - Called on clients that have authority over that object when you get authority or lose authority over it
 
 ### Out of course scope notes:
 
