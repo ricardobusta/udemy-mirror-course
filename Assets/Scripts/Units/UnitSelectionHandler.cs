@@ -129,7 +129,7 @@ namespace Units
                 var min = anchoredPosition - halfSize;
                 var max = anchoredPosition + halfSize;
 
-                foreach (var unit in _player.myUnits)
+                foreach (var unit in _player.MyUnits)
                 {
                     if (selectedUnits.Contains(unit))
                     {
