@@ -13,6 +13,8 @@ namespace Combat
 
         public event Action ServerOnDie;
 
+        public event Action<int, int> ClientOnHealthChanged;
+
         #region Server
 
         public override void OnStartServer()
@@ -48,6 +50,7 @@ namespace Combat
 
         private void OnCurrentHealthChanged(int oldHealth, int newHealth)
         {
+            ClientOnHealthChanged?.Invoke(newHealth, maxHealth);
         }
 
         #endregion Client
