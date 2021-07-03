@@ -6,7 +6,7 @@ namespace Combat
     public class Targeter : NetworkBehaviour
     {
         public Targetable Target { get; private set; }
-        public bool HasTarget { get; private set; }
+        public bool HasTarget => Target != null;
 
         #region Server
 
@@ -23,14 +23,12 @@ namespace Combat
             Debug.Log($"Target found {targetGameObject.name}");
 
             Target = newTarget;
-            HasTarget = true;
         }
 
         [Server]
         public void ClearTarget()
         {
             Target = null;
-            HasTarget = false;
         }
 
         #endregion Server

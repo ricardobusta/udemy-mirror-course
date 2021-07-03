@@ -20,9 +20,9 @@ namespace Networking
             Unit.OnServerUnitDespawned -= ServerHandleUnitDespawned;
         }
         
-        public override void OnStartClient()
+        public override void OnStartAuthority()
         {
-            if (!isClientOnly)
+            if (NetworkServer.active)
             {
                 return;
             }
@@ -32,7 +32,7 @@ namespace Networking
 
         public override void OnStopClient()
         {
-            if (!isClientOnly)
+            if (!isClientOnly || !hasAuthority)
             {
                 return;
             }
@@ -63,21 +63,11 @@ namespace Networking
         
         private void AuthorityHandleUnitSpawned(Unit unit)
         {
-            if (!hasAuthority)
-            {
-                return;
-            }
-            
             myUnits.Add(unit);
         }
 
         private void AuthorityHandleUnitDespawned(Unit unit)
         {
-            if (!hasAuthority)
-            {
-                return;
-            }
-
             myUnits.Remove(unit);
         }
         

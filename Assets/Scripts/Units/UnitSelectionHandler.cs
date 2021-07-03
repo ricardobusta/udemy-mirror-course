@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using Networking;
@@ -28,6 +29,13 @@ namespace Units
             unitSelectionArea.anchorMin = Vector2.zero;
             unitSelectionArea.anchorMax = Vector2.zero;
             unitSelectionArea.pivot = new Vector2(0.5f, 0.5f);
+
+            Unit.OnAuthorityUnitDespawned += AuthorityHandleUnityDespawned;
+        }
+
+        private void OnDestroy()
+        {
+            Unit.OnAuthorityUnitDespawned -= AuthorityHandleUnityDespawned;
         }
 
         private void Update()
@@ -38,9 +46,9 @@ namespace Units
                 {
                     return;
                 }
-                
+
                 _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
-                
+
                 if (_player == null)
                 {
                     return;
@@ -48,7 +56,7 @@ namespace Units
 
                 _playerSet = true;
             }
-            
+
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 StartSelectionArea();
@@ -82,6 +90,7 @@ namespace Units
                 {
                     previousSelectedUnit.Select(false);
                 }
+
                 selectedUnits.Clear();
             }
 
@@ -113,7 +122,7 @@ namespace Units
             {
                 var anchoredPosition = unitSelectionArea.anchoredPosition;
                 var halfSize = (unitSelectionArea.sizeDelta / 2);
-                var min =  anchoredPosition- halfSize;
+                var min = anchoredPosition - halfSize;
                 var max = anchoredPosition + halfSize;
 
                 foreach (var unit in _player.myUnits)
@@ -122,7 +131,7 @@ namespace Units
                     {
                         continue;
                     }
-                    
+
                     var unitScreenPos = _mainCamera.WorldToScreenPoint(unit.transform.position);
 
                     if (unitScreenPos.x > min.x &&
@@ -134,7 +143,7 @@ namespace Units
                     }
                 }
             }
-            
+
             foreach (var selectedUnit in selectedUnits)
             {
                 selectedUnit.Select(true);
@@ -150,6 +159,11 @@ namespace Units
 
             unitSelectionArea.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
             unitSelectionArea.anchoredPosition = _startPosition + new Vector2(width / 2f, height / 2f);
+        }
+
+        private void AuthorityHandleUnityDespawned(Unit unit)
+        {
+            selectedUnits.Remove(unit);
         }
     }
 }

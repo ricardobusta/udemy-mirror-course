@@ -7,6 +7,7 @@ namespace Units
 {
    public class Unit : NetworkBehaviour
    {
+      [SerializeField] private Health health;
       [SerializeField] private GameObject selectHighlight;
       [SerializeField] private Targeter targeter; 
       [SerializeField] private UnitMovement unitMovement; 
@@ -24,29 +25,37 @@ namespace Units
 
       public override void OnStartServer()
       {
+         health.ServerOnDie += ServerHandleOnDie;
          OnServerUnitSpawned?.Invoke(this);
       }
 
       public override void OnStopServer()
       {
+         health.ServerOnDie -= ServerHandleOnDie;
          OnServerUnitDespawned?.Invoke(this);
       }
 
-      public override void OnStartClient()
+      [Server]
+      private void ServerHandleOnDie()
       {
-         if(!isClientOnly || !hasAuthority) { return; }
-         OnAuthorityUnitSpawned?.Invoke(this);
-      }
-
-      public override void OnStopClient()
-      {
-         if(!isClientOnly || !hasAuthority) { return; }
-         OnAuthorityUnitDespawned?.Invoke(this);
+         NetworkServer.Destroy(gameObject);
       }
 
       #endregion Server
    
       #region Client
+      
+      public override void OnStartAuthority()
+      {
+         if(!hasAuthority) { return; }
+         OnAuthorityUnitSpawned?.Invoke(this);
+      }
+
+      public override void OnStopClient()
+      {
+         if(!hasAuthority) { return; }
+         OnAuthorityUnitDespawned?.Invoke(this);
+      }
    
       public void Select(bool selected)
       {
