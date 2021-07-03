@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using Buildings;
 using Mirror;
 using Networking;
 using UnityEngine;
@@ -31,11 +31,15 @@ namespace Units
             unitSelectionArea.pivot = new Vector2(0.5f, 0.5f);
 
             Unit.OnAuthorityUnitDespawned += AuthorityHandleUnityDespawned;
+
+            GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
         }
 
         private void OnDestroy()
         {
             Unit.OnAuthorityUnitDespawned -= AuthorityHandleUnityDespawned;
+            GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
+
         }
 
         private void Update()
@@ -164,6 +168,11 @@ namespace Units
         private void AuthorityHandleUnityDespawned(Unit unit)
         {
             selectedUnits.Remove(unit);
+        }
+
+        private void ClientHandleGameOver(string winnerName)
+        {
+            enabled = false; // Disable selection when game is over
         }
     }
 }

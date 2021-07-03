@@ -43,7 +43,6 @@ namespace Buildings
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("Clicked");
             if (!hasAuthority || eventData.button != PointerEventData.InputButton.Left)
             {
                 return;

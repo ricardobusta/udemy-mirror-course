@@ -8,6 +8,7 @@ namespace Buildings
     public class GameOverHandler : NetworkBehaviour
     {
         public static event Action<string> ClientOnGameOver;
+        public static event Action ServerOnGameOver;
         
         private List<UnitBase> _bases = new List<UnitBase>();
         
@@ -44,8 +45,8 @@ namespace Buildings
             var winnerPlayer = _bases[0].connectionToClient.connectionId.ToString();
             
             RpcGameOver($"Player {winnerPlayer}");
+            ServerOnGameOver?.Invoke();
             
-            Debug.Log("Game Over");
         }
 
         #endregion Server

@@ -23,7 +23,6 @@ namespace Networking
 
         public override void OnServerSceneChanged(string sceneName)
         {
-            Debug.Log($"sceneName {sceneName}");
             if (sceneName.EndsWith("Map.unity"))
             {
                 var gameOverHandler = Instantiate(gameOverHandlerPrefab);

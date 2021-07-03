@@ -1,3 +1,5 @@
+using System;
+using Buildings;
 using Combat;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,13 +11,18 @@ namespace Units
     {
         [SerializeField] private UnitSelectionHandler unitSelectionHandler;
         [SerializeField] private LayerMask layerMask;
-        [SerializeField] private Targeter targeter;
 
         private Camera _mainCamera;
 
         private void Start()
         {
             _mainCamera = Camera.main;
+            GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
+        }
+
+        private void OnDestroy()
+        {
+            GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
         }
 
         private void Update()
@@ -53,6 +60,11 @@ namespace Units
             {
                 unit.Targeter.CmdSetTarget(target.gameObject);
             }
+        }
+        
+        private void ClientHandleGameOver(string winnerName)
+        {
+            enabled = false; // Disable giving commands when game is over
         }
     }
 }

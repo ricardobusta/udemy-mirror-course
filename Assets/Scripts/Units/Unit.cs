@@ -59,9 +59,7 @@ namespace Units
    
       public void Select(bool selected)
       {
-         Debug.Log($"Selecting tank {netIdentity.netId} {selected} {selectHighlight.name}");
          selectHighlight.SetActive(selected);
-         Debug.Log(selectHighlight.activeSelf);
       }
 
       private void Start()
