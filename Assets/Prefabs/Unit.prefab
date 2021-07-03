@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &19319648279768473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8444599841437521165}
+  m_Layer: 0
+  m_Name: FiringPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8444599841437521165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19319648279768473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.63, z: 2.601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8222612800258519357}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199229148439057916
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +159,7 @@ GameObject:
   - component: {fileID: 706796269875641244}
   - component: {fileID: 3447345685784176861}
   - component: {fileID: -4016787718502797343}
+  - component: {fileID: 7604544340243335275}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -150,6 +181,7 @@ Transform:
   - {fileID: 8473012232679736276}
   - {fileID: 2864930480715784998}
   - {fileID: 6982861310805478919}
+  - {fileID: 8444599841437521165}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -291,6 +323,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &7604544340243335275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8222612800258519355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7872b1b5d8eb446d8a729c8e28faca75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  targeter: {fileID: -4016787718502797343}
+  projectilePrefab: {fileID: 7601706898714158706, guid: 08d124b7ea2b31d479f82426ba1c4cb3, type: 3}
+  projectileSpawnPoint: {fileID: 8444599841437521165}
+  attackRange: 11
+  attackCooldown: 1
+  rotationSpeed: 40
 --- !u!1001 &8222612799719154751
 PrefabInstance:
   m_ObjectHideFlags: 0
