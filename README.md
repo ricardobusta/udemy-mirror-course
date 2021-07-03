@@ -30,10 +30,10 @@ Learning how to make multiplayer RTS
 
 ## Section 2 - RTS Game
 
-### Lesson 16 - Spawning Units
+### Project Setup and Unit Spawning
 
 #### Mirror
-- Player network object is empty
+- Player network, with just network identity
 - Spawner network object also belongs to a player
 - Spawned object uses Spawner connection to give authority to the right client.
 - Add spawner object as a new player gets added. conn.identity maps to the player object.
@@ -42,4 +42,14 @@ Learning how to make multiplayer RTS
 - Add EventSystem to scene for detecting IPointerClickHandler event.
 - Update EventSystem script (New Input System)
 - Add Physics Raycaster to camera
+
+### Networking
+
+- Code running on the server in a component that also exist in client -> NetworkBehaviour
+- Adding prefix Cmd and Rpc to remote methods help a lot on code readability.
+- connectionToClient in NetworkBehaviour is a good way to figure out if objects belong to the same user
+
+### Out of course scope notes:
+
+NavMesh generation at runtime: https://learn.unity.com/tutorial/runtime-navmesh-generation
 

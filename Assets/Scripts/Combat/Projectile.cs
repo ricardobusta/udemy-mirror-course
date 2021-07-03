@@ -1,28 +1,48 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class Projectile : NetworkBehaviour
+namespace Combat
 {
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private float destroyAfterSeconds;
-    [SerializeField] private float launchForce;
-
-    private void Start()
+    public class Projectile : NetworkBehaviour
     {
-        rb.velocity = transform.forward * launchForce;
-    }
+        [SerializeField] private new Rigidbody rigidbody;
+        [SerializeField] private int damageToDeal = 1;
+        [SerializeField] private float destroyAfterSeconds;
+        [SerializeField] private float launchForce;
 
-    public override void OnStartServer()
-    {
-        Invoke(nameof(DestroySelf), destroyAfterSeconds);
-    }
+        private void Start()
+        {
+            rigidbody.velocity = transform.forward * launchForce;
+        }
 
-    [Server]
-    private void DestroySelf()
-    {
-        NetworkServer.Destroy(gameObject);
+        public override void OnStartServer()
+        {
+            Invoke(nameof(DestroySelf), destroyAfterSeconds);
+        }
+
+        [ServerCallback]
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+            {
+                if (networkIdentity.connectionToClient == connectionToClient)
+                {
+                    return; // Don't hit objects to same connection
+                }
+            }
+
+            if (other.TryGetComponent<Health>(out var health))
+            {
+                health.DealDamage(damageToDeal);
+                NetworkServer.Destroy(gameObject);
+            }
+        }
+
+        [Server]
+        private void DestroySelf()
+        {
+            NetworkServer.Destroy(gameObject);
+        }
     }
 }

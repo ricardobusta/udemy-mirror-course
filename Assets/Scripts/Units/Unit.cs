@@ -7,7 +7,7 @@ namespace Units
 {
    public class Unit : NetworkBehaviour
    {
-      [SerializeField] private SpriteRenderer selectHighlight;
+      [SerializeField] private GameObject selectHighlight;
       [SerializeField] private Targeter targeter; 
       [SerializeField] private UnitMovement unitMovement; 
 
@@ -34,8 +34,6 @@ namespace Units
 
       public override void OnStartClient()
       {
-         Select(false);
-
          if(!isClientOnly || !hasAuthority) { return; }
          OnAuthorityUnitSpawned?.Invoke(this);
       }
@@ -52,7 +50,14 @@ namespace Units
    
       public void Select(bool selected)
       {
-         selectHighlight.enabled = selected;
+         Debug.Log($"Selecting tank {netIdentity.netId} {selected} {selectHighlight.name}");
+         selectHighlight.SetActive(selected);
+         Debug.Log(selectHighlight.activeSelf);
+      }
+
+      private void Start()
+      {
+         Select(false);
       }
 
       #endregion

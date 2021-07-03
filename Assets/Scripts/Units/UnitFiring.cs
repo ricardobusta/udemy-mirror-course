@@ -41,14 +41,14 @@ namespace Units
         [Server]
         private bool CanFireAtTarget()
         {
-            if (targeter.Target.connectionToClient == connectionToClient)
-            {
-                return false; // Do not shoot own object
-            }
-            
             if (!targeter.HasTarget)
             {
                 return false;
+            }
+            
+            if (targeter.Target.connectionToClient == connectionToClient)
+            {
+                return false; // Do not shoot own object
             }
 
             var targetTransform = targeter.Target.transform;

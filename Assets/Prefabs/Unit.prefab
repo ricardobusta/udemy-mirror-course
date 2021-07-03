@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 3447345685784176861}
   - component: {fileID: -4016787718502797343}
   - component: {fileID: 7604544340243335275}
+  - component: {fileID: -8158079801017502201}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  selectHighlight: {fileID: 5003860690997774190}
+  selectHighlight: {fileID: 199229148439057916}
   targeter: {fileID: -4016787718502797343}
   unitMovement: {fileID: 308607570738332629}
 --- !u!65 &706796269875641244
@@ -343,6 +344,21 @@ MonoBehaviour:
   attackRange: 11
   attackCooldown: 1
   rotationSpeed: 40
+--- !u!114 &-8158079801017502201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8222612800258519355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71fb2a30cbee4742b7e300a10255b8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 3
 --- !u!1001 &8222612799719154751
 PrefabInstance:
   m_ObjectHideFlags: 0
