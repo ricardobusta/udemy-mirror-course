@@ -7,6 +7,7 @@ namespace Buildings
 {
     public class Building : NetworkBehaviour
     {
+        [SerializeField] private GameObject buildingPreview;
         [SerializeField] private Sprite icon;
         [SerializeField] private int id = -1;
         [SerializeField] private int price;
