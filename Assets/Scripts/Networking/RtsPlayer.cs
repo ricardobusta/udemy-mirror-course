@@ -9,6 +9,9 @@ namespace Networking
 {
     public class RtsPlayer : NetworkBehaviour
     {
+        [SerializeField] private int initialResources;
+        
+        
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
@@ -29,6 +32,8 @@ namespace Networking
             Unit.OnServerUnitDespawned += ServerHandleUnitDespawned;
             Building.OnServerBuildingSpawned += ServerHandleBuildingSpawned;
             Building.OnServerBuildingDespawned += ServerHandleBuildingDespawned;
+
+            _resources = initialResources;
         }
 
         public override void OnStopServer()
@@ -138,6 +143,18 @@ namespace Networking
         private bool BelongsToPlayer(NetworkBehaviour entity)
         {
             return entity.connectionToClient.connectionId == connectionToClient.connectionId;
+        }
+        
+        [Server]
+        public void SetResources(int resources)
+        {
+            _resources = resources;
+        }
+        
+        [Server]
+        public void AddResources(int resources)
+        {
+            _resources += resources;
         }
         
         #endregion Server

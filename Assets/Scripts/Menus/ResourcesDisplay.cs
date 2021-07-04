@@ -35,7 +35,7 @@ namespace Menus
 
         private void ClientHandleResourcesUpdated(int resources)
         {
-            resourcesText.text = resources.ToString();
+            resourcesText.text = $"Resources: {resources}";
         }
     }
 }
