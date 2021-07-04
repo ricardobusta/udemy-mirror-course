@@ -10,7 +10,9 @@ namespace Units
       [SerializeField] private Health health;
       [SerializeField] private GameObject selectHighlight;
       [SerializeField] private Targeter targeter; 
-      [SerializeField] private UnitMovement unitMovement; 
+      [SerializeField] private UnitMovement unitMovement;
+      [SerializeField] private int resourceCost;
+      
 
       public static event Action<Unit> OnServerUnitSpawned;
       public static event Action<Unit> OnServerUnitDespawned;
@@ -20,6 +22,7 @@ namespace Units
 
       public UnitMovement UnitMovement => unitMovement;
       public Targeter Targeter => targeter;
+      public int ResourceCost => resourceCost;
       
       #region Server
 

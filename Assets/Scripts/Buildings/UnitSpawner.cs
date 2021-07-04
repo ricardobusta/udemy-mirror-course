@@ -1,19 +1,34 @@
+using System;
 using Combat;
 using Mirror;
+using Networking;
 using Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Utils;
+using Random = UnityEngine.Random;
 
 namespace Buildings
 {
     public class UnitSpawner : NetworkBehaviour, IPointerClickHandler
     {
         [SerializeField] private Health health;
-        [SerializeField] private GameObject unitPrefab;
+        [SerializeField] private Unit unitPrefab;
         [SerializeField] private float spawnDistance;
-        
-        
-        private Vector3? rallyPoint;  
+        [SerializeField] private float spawnMoveDistance;
+        [SerializeField] private ProgressCounter progressCounter;
+        [SerializeField] private int maxUnitQueue;
+        [SerializeField] private float unitSpawnTime;
+
+        [SyncVar(hook = nameof(OnQueueCountUpdate))]
+        private int queuedUnits;
+
+        [SyncVar(hook = nameof(OnProgressUpdate))]
+        private float unitTimer;
+
+        private Vector3? _rallyPoint;
+        private RtsPlayer _player;
+        private bool _playerSet;
         
         #region Server
 
@@ -26,7 +41,33 @@ namespace Buildings
         {
             health.ServerOnDie -= ServerHandleOnDie;
         }
-        
+
+        [Server]
+        private void ProduceUnits()
+        {
+            if (queuedUnits == 0)
+            {
+                return;
+            }
+
+            unitTimer += Time.deltaTime;
+
+            if (unitTimer < unitSpawnTime)
+            {
+                return;
+            }
+
+            var (spawnPos, rallyPos, rotation) = GetSpawnInfo();
+
+            var unitInstance = Instantiate(unitPrefab, spawnPos, rotation);
+            unitInstance.GetComponent<UnitMovement>().ServerMove(rallyPos);
+
+            NetworkServer.Spawn(unitInstance.gameObject, connectionToClient);
+
+            queuedUnits--;
+            unitTimer = 0;
+        }
+
         [Server]
         private void ServerHandleOnDie()
         {
@@ -34,14 +75,25 @@ namespace Buildings
         }
 
         [Command]
-        private void CmdSpawnUnit()
+        private void CmdQueueUnit()
         {
-            var (spawnPos, rallyPos, rotation) = GetSpawnInfo();
+            if (queuedUnits >= maxUnitQueue)
+            {
+                return;
+            }
 
-            var unitInstance = Instantiate(unitPrefab, spawnPos, rotation);
-            unitInstance.GetComponent<UnitMovement>().SetDestination(rallyPos);
-        
-            NetworkServer.Spawn(unitInstance, connectionToClient);
+            if (!_playerSet)
+            {
+                return;
+            }
+            
+            if (_player.Resources < unitPrefab.ResourceCost)
+            {
+                return;
+            }
+
+            _player.AddResources(-unitPrefab.ResourceCost);
+            queuedUnits++;
         }
 
         [Server]
@@ -50,22 +102,28 @@ namespace Buildings
             var spawnerPosition = transform.position;
 
             Vector3 rallyPosition;
-            if (rallyPoint.HasValue)
+            if (_rallyPoint.HasValue)
             {
-                rallyPosition = rallyPoint.Value;
+                rallyPosition = _rallyPoint.Value;
             }
             else
             {
-                var spawnAngle = Random.Range(0f, Mathf.PI*2);
-                rallyPosition = spawnerPosition + new Vector3(Mathf.Cos(spawnAngle) * spawnDistance * 1.1f, 0,
+                var spawnAngle = Random.Range(0f, Mathf.PI * 2);
+                rallyPosition = spawnerPosition + new Vector3(Mathf.Cos(spawnAngle) * spawnMoveDistance, 0,
                     Mathf.Sin(spawnAngle) * spawnDistance * 1.1f);
             }
-            
+
             var spawnDirection = (rallyPosition - spawnerPosition).normalized;
             var spawnPosition = spawnerPosition + (spawnDirection * spawnDistance);
             var rotation = Quaternion.LookRotation(spawnDirection, Vector3.up);
-            
+
             return (spawnPosition, rallyPosition, rotation);
+        }
+        
+        [ServerCallback]
+        private void Update()
+        {
+            ProduceUnits();
         }
 
         #endregion Server
@@ -78,10 +136,30 @@ namespace Buildings
             {
                 return;
             }
-        
-            CmdSpawnUnit();
+
+            CmdQueueUnit();
+        }
+
+        public void OnQueueCountUpdate(int oldValue, int newValue)
+        {
+            progressCounter.gameObject.SetActive(newValue != 0);
+            progressCounter.SetCounter(newValue);
+        }
+
+        public void OnProgressUpdate(float oldValue, float newValue)
+        {
+            progressCounter.SetValue(newValue / unitSpawnTime);
         }
 
         #endregion Client
+
+        private void Start()
+        {
+            LocalRtsPlayer.GetLocalPlayerAsync(player =>
+            {
+                _player = player;
+                _playerSet = true;
+            });
+        }
     }
 }

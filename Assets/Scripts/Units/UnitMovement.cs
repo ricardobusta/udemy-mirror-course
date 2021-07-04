@@ -54,11 +54,11 @@ namespace Units
         [Command]
         public void CmdMove(Vector3 position)
         {
-            SetDestination(position);
+            ServerMove(position);
         }
 
         [Server]
-        public void SetDestination(Vector3 position)
+        public void ServerMove(Vector3 position)
         {
             targeter.ClearTarget();
 
