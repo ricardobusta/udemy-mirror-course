@@ -1555,6 +1555,7 @@ GameObject:
   - component: {fileID: 1788077793}
   - component: {fileID: 1788077792}
   - component: {fileID: 1788077794}
+  - component: {fileID: 1788077797}
   - component: {fileID: 1788077795}
   - component: {fileID: 1788077796}
   m_Layer: 0
@@ -1642,6 +1643,18 @@ MonoBehaviour:
   buildings:
   - {fileID: 7967955454313326364, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
   - {fileID: 1727202288531508148, guid: 717863178355a174bbfe4703956510fe, type: 3}
+--- !u!114 &1788077797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788077791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8922b7b90145eeb31ae85953ffb66b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789585913
 GameObject:
   m_ObjectHideFlags: 0

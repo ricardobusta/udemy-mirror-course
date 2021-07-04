@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Buildings;
 using Mirror;
@@ -11,7 +12,14 @@ namespace Networking
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
-        private Dictionary<int, Building> _buildingMap;
+        public static Dictionary<int, Building> buildingMap;
+        
+        [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
+        private int _resources;
+
+        public event Action<int> ClientOnResourcesUpdated;
+
+        public int Resources => _resources;
         
         #region Server
         
@@ -55,9 +63,10 @@ namespace Networking
             Building.OnAuthorityBuildingDespawned -= AuthorityHandleBuildingDespawned;
         }
 
+        [Command]
         public void CmdTryPlaceBuilding(int buildingId, Vector3 position)
         {
-            if(!_buildingMap.TryGetValue(buildingId, out var buildingToPlace))
+            if(!buildingMap.TryGetValue(buildingId, out var buildingToPlace))
             {
                 return;
             }
@@ -134,10 +143,10 @@ namespace Networking
         #endregion Server
 
         #region Client
-
-        public void SetBuildingMap(Dictionary<int, Building> buildingMap)
+        
+        private void ClientHandleResourcesUpdated(int oldResources, int newResources)
         {
-            _buildingMap = buildingMap;
+            ClientOnResourcesUpdated?.Invoke(newResources);
         }
 
         #endregion EndRegion

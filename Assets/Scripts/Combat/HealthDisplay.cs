@@ -15,7 +15,7 @@ namespace Combat
         private void Awake()
         {
             health.ClientOnHealthChanged += UpdateHealth;
-            healthBarParent.SetActive(false);
+           // healthBarParent.SetActive(false);
         }
 
         private void OnDestroy()
@@ -30,12 +30,12 @@ namespace Combat
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            healthBarParent.SetActive(true);
+         //   healthBarParent.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            healthBarParent.SetActive(false);
+           // healthBarParent.SetActive(false);
         }
     }
 }

@@ -33,6 +33,12 @@ namespace Units
             Unit.OnAuthorityUnitDespawned += AuthorityHandleUnityDespawned;
 
             GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
+            
+            LocalRtsPlayer.GetLocalPlayerAsync(player =>
+            {
+                _player = player;
+                _playerSet = true;
+            });
         }
 
         private void OnDestroy()
@@ -46,19 +52,7 @@ namespace Units
         {
             if (!_playerSet)
             {
-                if (NetworkClient.connection == null || NetworkClient.connection.identity == null)
-                {
-                    return;
-                }
-
-                _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
-
-                if (_player == null)
-                {
-                    return;
-                }
-
-                _playerSet = true;
+                return;
             }
 
             if (Mouse.current.leftButton.wasPressedThisFrame)

@@ -23,7 +23,7 @@ namespace Units
         {
             GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
         }
-        
+
         [ServerCallback]
         private void Update()
         {
@@ -35,14 +35,14 @@ namespace Units
                 {
                     agent.SetDestination(target.transform.position);
                 }
-                else if(agent.hasPath)
+                else if (agent.hasPath)
                 {
                     agent.ResetPath();
                 }
-                
+
                 return;
             }
-            
+
             if (!agent.hasPath || agent.remainingDistance > agent.stoppingDistance)
             {
                 return;
@@ -54,8 +54,14 @@ namespace Units
         [Command]
         public void CmdMove(Vector3 position)
         {
+            SetDestination(position);
+        }
+
+        [Server]
+        public void SetDestination(Vector3 position)
+        {
             targeter.ClearTarget();
-            
+
             if (!NavMesh.SamplePosition(position, out var hit, 1f, NavMesh.AllAreas))
             {
                 return; // Do nothing if invalid position
@@ -67,7 +73,10 @@ namespace Units
         [Server]
         private void ServerHandleGameOver()
         {
-            agent.ResetPath();
+            if (agent.isOnNavMesh)
+            {
+                agent.ResetPath();
+            }
         }
 
         #endregion Server

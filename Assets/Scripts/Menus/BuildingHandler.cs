@@ -39,6 +39,17 @@ namespace Menus
             }
         }
 
+        private void Start()
+        {
+            LocalRtsPlayer.GetLocalPlayerAsync(player =>
+            {
+                _player = player;
+                _playerSet = true;
+            });
+
+            RtsPlayer.buildingMap = _buildingMap;
+        }
+
         public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab)
         {
             _buildingPreview = Instantiate(buildingPreviewPrefab);
@@ -62,17 +73,7 @@ namespace Menus
         {
             if (!_playerSet)
             {
-                if (NetworkClient.connection == null || NetworkClient.connection.identity == null)
-                {
-                    return;
-                }
-                
-                _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
-                if (_player != null)
-                {
-                    _playerSet = true;
-                    _player.SetBuildingMap(_buildingMap);
-                }
+                return;
             }
             
             if(!PlacingBuilding)

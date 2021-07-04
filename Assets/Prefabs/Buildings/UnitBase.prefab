@@ -175,6 +175,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitBase
       objectReference: {fileID: 0}
+    - target: {fileID: 8892753655427760901, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892753655427760901, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892753655427760901, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_Size.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892753655427760901, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
 --- !u!1 &1021092745599039753 stripped
