@@ -21,11 +21,13 @@ namespace Menus
 
         private bool _selected;
 
-        public void Set(Building building, BuildMenu menu)
+        public Building Building => building;
+
+        public void Set(Building setBuilding)
         {
-            this.building = building;
-            icon.sprite = building.Icon;
-            price.text = $"$ {building.Price}";
+            building = setBuilding;
+            icon.sprite = setBuilding.Icon;
+            price.text = $"$ {setBuilding.Price}";
             ResetButton();
 
             _selected = false;

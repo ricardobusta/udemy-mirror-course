@@ -21,6 +21,7 @@ namespace Buildings
         public Sprite Icon => icon;
         public int Id => id;
         public int Price => price;
+        public GameObject BuildingPreview => buildingPreview;
 
         #region Server
 

@@ -9,7 +9,7 @@ namespace Buildings
     {
         public static event Action<string> ClientOnGameOver;
         public static event Action ServerOnGameOver;
-        
+
         private List<UnitBase> _bases = new List<UnitBase>();
         
         #region Server
@@ -27,15 +27,15 @@ namespace Buildings
         }
 
         [Server]
-        private void ServerHandleBaseSpawned(UnitBase unitbase)
+        private void ServerHandleBaseSpawned(UnitBase unitBase)
         {
-            _bases.Add(unitbase);
+            _bases.Add(unitBase);
         }
-        
+
         [Server]
-        private void ServerHandleBaseDespawned(UnitBase unitbase)
+        private void ServerHandleBaseDespawned(UnitBase unitBase)
         {
-            _bases.Remove(unitbase);
+            _bases.Remove(unitBase);
 
             if (_bases.Count != 1)
             {
@@ -43,10 +43,9 @@ namespace Buildings
             }
 
             var winnerPlayer = _bases[0].connectionToClient.connectionId.ToString();
-            
+
             RpcGameOver($"Player {winnerPlayer}");
             ServerOnGameOver?.Invoke();
-            
         }
 
         #endregion Server
