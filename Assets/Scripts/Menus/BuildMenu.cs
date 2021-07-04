@@ -2,6 +2,7 @@ using System;
 using Buildings;
 using Networking;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Menus
 {
@@ -9,19 +10,16 @@ namespace Menus
     {
         [SerializeField] private BuildingHandler buildingHandler;
         [SerializeField] private BuildButton buildButtonPrefab;
-        [SerializeField] private Building[] buildings;
+        
         [SerializeField] private Transform buttonParent;
 
-        private Camera _mainCamera;
-        private RtsPlayer _player;
-        private GameObject _buildingPreviewInstance;
         private BuildButton _currentBuildButton;
 
         private void Start()
         {
             buildingHandler.StopPlacingBuilding += OnStopPlacingBuilding;
 
-            foreach (var building in buildings)
+            foreach (var building in buildingHandler.Buildings)
             {
                 var button = Instantiate(buildButtonPrefab, buttonParent);
                 button.Set(building);
@@ -37,7 +35,8 @@ namespace Menus
             }
 
             _currentBuildButton = button;
-            buildingHandler.SetBuilding(button.Building.BuildingPreview);
+            var building = button.Building;
+            buildingHandler.SetBuilding(building.Id, building.BuildingPreview);
         }
 
         private void ClearButton()

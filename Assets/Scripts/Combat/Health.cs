@@ -47,8 +47,6 @@ namespace Combat
             }
             
             ServerOnDie?.Invoke();
-
-            Debug.Log($"Died");
         }
 
         [Server]

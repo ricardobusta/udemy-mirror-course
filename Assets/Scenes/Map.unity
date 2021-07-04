@@ -1639,6 +1639,9 @@ MonoBehaviour:
   floorMask:
     serializedVersion: 2
     m_Bits: 4096
+  buildings:
+  - {fileID: 7967955454313326364, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
+  - {fileID: 1727202288531508148, guid: 717863178355a174bbfe4703956510fe, type: 3}
 --- !u!1 &1789585913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,7 +1840,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingHandler: {fileID: 1788077796}
   buildButtonPrefab: {fileID: 7760095930235148895, guid: c85dd8b8cb17fb147ab6f5355e41d5b1, type: 3}
-  buildings:
-  - {fileID: 7967955454313326364, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
-  - {fileID: 1727202288531508148, guid: 717863178355a174bbfe4703956510fe, type: 3}
   buttonParent: {fileID: 245852867}

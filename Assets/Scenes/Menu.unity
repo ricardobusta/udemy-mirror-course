@@ -212,9 +212,10 @@ MonoBehaviour:
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 8222612800258519355, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
-  - {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
-  - {fileID: 7601706898714158706, guid: 08d124b7ea2b31d479f82426ba1c4cb3, type: 3}
   - {fileID: 7235658497187953942, guid: e0d54c708fd21404b856a38686d4b5dd, type: 3}
+  - {fileID: 7601706898714158706, guid: 08d124b7ea2b31d479f82426ba1c4cb3, type: 3}
+  - {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
+  - {fileID: 8592932276092425633, guid: 717863178355a174bbfe4703956510fe, type: 3}
   playerSpawnerPrefab: {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
   gameOverHandlerPrefab: {fileID: 4963391096361833255, guid: e0d54c708fd21404b856a38686d4b5dd, type: 3}
 --- !u!4 &178142086

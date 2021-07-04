@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Buildings;
 using Mirror;
 using Units;
+using UnityEngine;
 
 namespace Networking
 {
@@ -10,6 +11,10 @@ namespace Networking
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
+        private Dictionary<int, Building> _buildingMap;
+        
+        #region Server
+        
         public override void OnStartServer()
         {
             Unit.OnServerUnitSpawned += ServerHandleUnitSpawned;
@@ -50,6 +55,16 @@ namespace Networking
             Building.OnAuthorityBuildingDespawned -= AuthorityHandleBuildingDespawned;
         }
 
+        public void CmdTryPlaceBuilding(int buildingId, Vector3 position)
+        {
+            if(!_buildingMap.TryGetValue(buildingId, out var buildingToPlace))
+            {
+                return;
+            }
+
+            var buildingInstance = Instantiate(buildingToPlace.gameObject, position, buildingToPlace.transform.rotation);
+            NetworkServer.Spawn(buildingInstance, connectionToClient);
+        }
 
         private void ServerHandleUnitSpawned(Unit unit)
         {
@@ -115,5 +130,16 @@ namespace Networking
         {
             return entity.connectionToClient.connectionId == connectionToClient.connectionId;
         }
+        
+        #endregion Server
+
+        #region Client
+
+        public void SetBuildingMap(Dictionary<int, Building> buildingMap)
+        {
+            _buildingMap = buildingMap;
+        }
+
+        #endregion EndRegion
     }
 }

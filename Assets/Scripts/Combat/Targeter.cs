@@ -24,15 +24,11 @@ namespace Combat
         [Command]
         public void CmdSetTarget(GameObject targetGameObject)
         {
-            Debug.Log("Trying to set target");
             if (!targetGameObject.TryGetComponent<Targetable>(out var newTarget))
             {
-                Debug.Log("Invalid target");
                 return;
             }
-
-            Debug.Log($"Target found {targetGameObject.name}");
-
+            
             Target = newTarget;
         }
 
