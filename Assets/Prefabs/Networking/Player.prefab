@@ -64,3 +64,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialResources: 200
+  buildingBlockLayer:
+    serializedVersion: 2
+    m_Bits: 1281
+  buildingRangeLimit: 25

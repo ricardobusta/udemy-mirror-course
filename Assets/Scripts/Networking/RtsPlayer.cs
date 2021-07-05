@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Buildings;
 using Mirror;
 using Units;
@@ -10,22 +11,23 @@ namespace Networking
     public class RtsPlayer : NetworkBehaviour
     {
         [SerializeField] private int initialResources;
-        
-        
+        [SerializeField] private LayerMask buildingBlockLayer;
+        [SerializeField] private float buildingRangeLimit;
+
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
         public static Dictionary<int, Building> buildingMap;
-        
+
         [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
         private int _resources;
 
         public event Action<int> ClientOnResourcesUpdated;
 
         public int Resources => _resources;
-        
+
         #region Server
-        
+
         public override void OnStartServer()
         {
             Unit.OnServerUnitSpawned += ServerHandleUnitSpawned;
@@ -43,13 +45,14 @@ namespace Networking
             Building.OnServerBuildingSpawned -= ServerHandleBuildingSpawned;
             Building.OnServerBuildingDespawned -= ServerHandleBuildingDespawned;
         }
-        
+
         public override void OnStartAuthority()
         {
             if (NetworkServer.active)
             {
                 return;
             }
+
             Unit.OnAuthorityUnitSpawned += AuthorityHandleUnitSpawned;
             Unit.OnAuthorityUnitDespawned += AuthorityHandleUnitDespawned;
             Building.OnAuthorityBuildingSpawned += AuthorityHandleBuildingSpawned;
@@ -62,6 +65,7 @@ namespace Networking
             {
                 return;
             }
+
             Unit.OnAuthorityUnitSpawned -= AuthorityHandleUnitSpawned;
             Unit.OnAuthorityUnitDespawned -= AuthorityHandleUnitDespawned;
             Building.OnAuthorityBuildingSpawned -= AuthorityHandleBuildingSpawned;
@@ -71,13 +75,21 @@ namespace Networking
         [Command]
         public void CmdTryPlaceBuilding(int buildingId, Vector3 position)
         {
-            if(!buildingMap.TryGetValue(buildingId, out var buildingToPlace))
+            if (!buildingMap.TryGetValue(buildingId, out var buildingToPlace))
+            {
+                return;
+            }
+            
+            if (!CanPlaceBuilding(buildingToPlace.GetComponent<BoxCollider>(), position, buildingToPlace.Price))
             {
                 return;
             }
 
-            var buildingInstance = Instantiate(buildingToPlace.gameObject, position, buildingToPlace.transform.rotation);
+            var buildingInstance =
+                Instantiate(buildingToPlace.gameObject, position, buildingToPlace.transform.rotation);
             NetworkServer.Spawn(buildingInstance, connectionToClient);
+
+            AddResources(-buildingToPlace.Price);
         }
 
         private void ServerHandleUnitSpawned(Unit unit)
@@ -86,7 +98,7 @@ namespace Networking
             {
                 return;
             }
-            
+
             MyUnits.Add(unit);
         }
 
@@ -99,14 +111,14 @@ namespace Networking
 
             MyUnits.Remove(unit);
         }
-        
+
         private void ServerHandleBuildingSpawned(Building building)
         {
             if (!BelongsToPlayer(building))
             {
                 return;
             }
-            
+
             MyBuildings.Add(building);
         }
 
@@ -119,7 +131,7 @@ namespace Networking
 
             MyBuildings.Remove(building);
         }
-        
+
         private void AuthorityHandleUnitSpawned(Unit unit)
         {
             MyUnits.Add(unit);
@@ -129,7 +141,7 @@ namespace Networking
         {
             MyUnits.Remove(unit);
         }
-        
+
         private void AuthorityHandleBuildingSpawned(Building building)
         {
             MyBuildings.Add(building);
@@ -139,33 +151,55 @@ namespace Networking
         {
             MyBuildings.Remove(building);
         }
-        
+
         private bool BelongsToPlayer(NetworkBehaviour entity)
         {
             return entity.connectionToClient.connectionId == connectionToClient.connectionId;
         }
-        
+
         [Server]
         public void SetResources(int resources)
         {
             _resources = resources;
         }
-        
+
         [Server]
         public void AddResources(int resources)
         {
             _resources += resources;
         }
-        
+
         #endregion Server
 
         #region Client
-        
+
         private void ClientHandleResourcesUpdated(int oldResources, int newResources)
         {
             ClientOnResourcesUpdated?.Invoke(newResources);
         }
 
         #endregion EndRegion
+        
+        public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 position, int price)
+        {
+            if (_resources < price)
+            {
+                return false;
+            }
+
+            if (Physics.CheckBox(position + buildingCollider.center, buildingCollider.size / 2, Quaternion.identity,
+                buildingBlockLayer))
+            {
+                return false;
+            }
+
+            if (!MyBuildings.Any(building =>
+                (position - building.transform.position).sqrMagnitude <= buildingRangeLimit * buildingRangeLimit))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

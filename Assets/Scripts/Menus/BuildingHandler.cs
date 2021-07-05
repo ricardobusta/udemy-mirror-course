@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Buildings;
-using Mirror;
 using Networking;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,26 +12,32 @@ namespace Menus
     {
         [SerializeField] private LayerMask floorMask;
         [SerializeField] private Building[] buildings;
-        
+        [SerializeField] private Material validMaterial;
+        [SerializeField] private Material invalidMaterial;
+
+
         private bool PlacingBuilding => _buildingId != -1;
         private int _buildingId;
         private GameObject _buildingPreview;
+        private List<Renderer> _buildingPreviewRenderers = new List<Renderer>();
+        private BoxCollider _buildingCollider;
         private Camera _mainCamera;
         private RtsPlayer _player;
         private bool _playerSet;
-        private readonly Dictionary<int, Building> _buildingMap = new Dictionary<int,Building>();
+        private int _buildingPrice;
+        private readonly Dictionary<int, Building> _buildingMap = new Dictionary<int, Building>();
 
         public event Action StartPlacingBuilding;
         public event Action StopPlacingBuilding;
 
         public IEnumerable<Building> Buildings => buildings;
-        
+
         private void Awake()
         {
             _mainCamera = Camera.main;
 
             _buildingId = -1;
-            
+
             foreach (var building in buildings)
             {
                 _buildingMap.Add(building.Id, building);
@@ -50,19 +55,25 @@ namespace Menus
             RtsPlayer.buildingMap = _buildingMap;
         }
 
-        public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab)
+        public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab, int price, BoxCollider collider)
         {
             _buildingPreview = Instantiate(buildingPreviewPrefab);
+            _buildingPreview.GetComponent<Renderer>();
             _buildingId = buildingId;
+            _buildingPrice = price;
+            _buildingCollider = collider;
+            _buildingPreviewRenderers.AddRange(_buildingPreview.GetComponentsInChildren<Renderer>());
             StartPlacingBuilding?.Invoke();
         }
-        
+
         public void StopBuilding()
         {
-            if(_buildingPreview!=null)
+            if (_buildingPreview != null)
             {
                 Destroy(_buildingPreview.gameObject);
                 _buildingPreview = null;
+                _buildingPreviewRenderers.Clear();
+                _buildingCollider = null;
             }
 
             _buildingId = -1;
@@ -75,12 +86,12 @@ namespace Menus
             {
                 return;
             }
-            
-            if(!PlacingBuilding)
+
+            if (!PlacingBuilding)
             {
                 return;
             }
-            
+
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 // Cancel build
@@ -114,9 +125,17 @@ namespace Menus
                 // Re-enable building preview if get to this point
                 _buildingPreview.SetActive(true);
             }
-            
+
             // Move building preview
             _buildingPreview.transform.position = hit.point;
+            
+            var mat = _player.CanPlaceBuilding(_buildingCollider, hit.point, _buildingPrice)
+                ? validMaterial
+                : invalidMaterial;
+            foreach (var renderer in _buildingPreviewRenderers)
+            {
+                renderer.material = mat;
+            }
         }
     }
 }

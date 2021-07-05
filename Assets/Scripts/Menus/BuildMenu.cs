@@ -10,7 +10,7 @@ namespace Menus
     {
         [SerializeField] private BuildingHandler buildingHandler;
         [SerializeField] private BuildButton buildButtonPrefab;
-        
+
         [SerializeField] private Transform buttonParent;
 
         private BuildButton _currentBuildButton;
@@ -36,7 +36,8 @@ namespace Menus
 
             _currentBuildButton = button;
             var building = button.Building;
-            buildingHandler.SetBuilding(building.Id, building.BuildingPreview);
+            buildingHandler.SetBuilding(building.Id, building.BuildingPreview, building.Price,
+                building.GetComponent<BoxCollider>());
         }
 
         private void ClearButton()
