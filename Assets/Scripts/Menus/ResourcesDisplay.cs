@@ -1,8 +1,6 @@
-using System;
 using Networking;
 using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using Utils;
 
 namespace Menus

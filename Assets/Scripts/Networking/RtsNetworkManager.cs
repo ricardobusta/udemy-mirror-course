@@ -1,7 +1,6 @@
 ﻿using Buildings;
 using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Networking
 {
@@ -13,6 +12,11 @@ namespace Networking
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             base.OnServerAddPlayer(conn);
+
+            var rtsPlayer = conn.identity.GetComponent<RtsPlayer>();
+            var randomColor = Random.onUnitSphere;
+            Debug.Log($"New player color: {randomColor}");
+            rtsPlayer.SetTeamColor(new Color(Mathf.Abs(randomColor.x), Mathf.Abs(randomColor.y), Mathf.Abs(randomColor.z)));
 
             var playerTransform = conn.identity.transform;
 

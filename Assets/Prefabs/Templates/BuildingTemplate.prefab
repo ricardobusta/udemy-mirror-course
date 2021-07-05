@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 8383492531623340371}
   - component: {fileID: 1773038315658120950}
   - component: {fileID: 4726727494867567474}
+  - component: {fileID: 3939210438866746862}
   m_Layer: 0
   m_Name: BuildingTemplate
   m_TagString: Untagged
@@ -208,6 +209,25 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   aimAtPoint: {fileID: 144377809284823441}
+--- !u!114 &3939210438866746862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8656872587062038755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36c5ebab6ea64a4fa5371c5bb3887ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  teamColorRenderers:
+  - {fileID: 0}
+  teamColorMaterialIndexes: 00000000
+  HealthBarColor: {fileID: 1129367220732224058}
+  teamColorMaterialPrefab: {fileID: 2100000, guid: 48b47f87d0ee2594aa4c824413ef8700, type: 2}
 --- !u!1001 &7834860477711032684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,5 +343,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1a09b3669314794a9f94b98de027cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1129367220732224058 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7140269841683858262, guid: b70a1e276f132264593e7b50e494ea9f, type: 3}
+  m_PrefabInstance: {fileID: 7834860477711032684}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

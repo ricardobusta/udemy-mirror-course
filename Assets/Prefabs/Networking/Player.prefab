@@ -68,3 +68,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1281
   buildingRangeLimit: 25
+  templateMaterial: {fileID: 2100000, guid: 48b47f87d0ee2594aa4c824413ef8700, type: 2}

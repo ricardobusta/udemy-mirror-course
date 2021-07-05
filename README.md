@@ -55,6 +55,10 @@ Learning how to make multiplayer RTS
 - Also has OnStartAuthority and OnStopAuthority callbacks
   - Called on clients that have authority over that object when you get authority or lose authority over it
 
+### Major Issues
+
+- I had this misconception of trying to get the player that owned certain object on client. However this is more like a server-side logic. So instead I had to make a network behaviour get the value server side and then only set the value to a syncvar to the clients. E.g. team color.
+
 ### Out of course scope notes:
 
 NavMesh generation at runtime: https://learn.unity.com/tutorial/runtime-navmesh-generation

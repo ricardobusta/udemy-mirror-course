@@ -140,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 10965b0eb89e3f0448ec17937b63feee, type: 2}
+  - {fileID: 2100000, guid: 48b47f87d0ee2594aa4c824413ef8700, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,6 +273,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 5.88
       objectReference: {fileID: 0}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: HealthBarColor
+      value: 
+      objectReference: {fileID: 8765293715716049872}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorRenderer
+      value: 
+      objectReference: {fileID: 5226780991047812472}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorRenderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 5226780991047812472}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorMaterialIndexes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5183481824465512818, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_AssetId
       value: 
@@ -322,6 +342,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71fb2a30cbee4742b7e300a10255b8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8765293715716049872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1129367220732224058, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+  m_PrefabInstance: {fileID: 8505265261523167722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &7667766444099623456 stripped

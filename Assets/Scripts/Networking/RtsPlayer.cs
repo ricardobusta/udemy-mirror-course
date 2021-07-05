@@ -13,18 +13,21 @@ namespace Networking
         [SerializeField] private int initialResources;
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
+        [SerializeField] private Material templateMaterial;
 
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
+        public Color TeamColor;
+
+        private Material _playerMaterial;
+        
+        [field: SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
+        public int Resources { get; private set; }
+        
         public static Dictionary<int, Building> buildingMap;
 
-        [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
-        private int _resources;
-
         public event Action<int> ClientOnResourcesUpdated;
-
-        public int Resources => _resources;
 
         #region Server
 
@@ -35,7 +38,7 @@ namespace Networking
             Building.OnServerBuildingSpawned += ServerHandleBuildingSpawned;
             Building.OnServerBuildingDespawned += ServerHandleBuildingDespawned;
 
-            _resources = initialResources;
+            Resources = initialResources;
         }
 
         public override void OnStopServer()
@@ -158,15 +161,21 @@ namespace Networking
         }
 
         [Server]
+        public void SetTeamColor(Color newTeamColor)
+        {
+            TeamColor = newTeamColor;
+        }
+
+        [Server]
         public void SetResources(int resources)
         {
-            _resources = resources;
+            Resources = resources;
         }
 
         [Server]
         public void AddResources(int resources)
         {
-            _resources += resources;
+            Resources += resources;
         }
 
         #endregion Server
@@ -182,7 +191,7 @@ namespace Networking
         
         public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 position, int price)
         {
-            if (_resources < price)
+            if (Resources < price)
             {
                 return false;
             }

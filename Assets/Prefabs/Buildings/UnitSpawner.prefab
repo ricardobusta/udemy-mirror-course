@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7156512340192462123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592932276092425633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8e4cf057b2faa45829611100941fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: {fileID: 1657015269806098374}
+  unitPrefab: {fileID: 7737265738641473481, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+  spawnDistance: 2.5
+  spawnMoveDistance: 3
+  progressCounter: {fileID: 5069588346133502653}
+  maxUnitQueue: 5
+  unitSpawnTime: 5
 --- !u!1 &6678049929060857596
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +80,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63a57f1bbb9dddf48b57b3560a1d298e, type: 2}
+  - {fileID: 2100000, guid: 48b47f87d0ee2594aa4c824413ef8700, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,27 +183,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7156512340192462123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8592932276092425633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce8e4cf057b2faa45829611100941fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: {fileID: 1657015269806098374}
-  unitPrefab: {fileID: 7737265738641473481, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
-  spawnDistance: 2.5
-  spawnMoveDistance: 3
-  progressCounter: {fileID: 5069588346133502653}
-  maxUnitQueue: 5
-  unitSpawnTime: 5
 --- !u!1001 &1108828480463439170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,6 +258,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 4.76
       objectReference: {fileID: 0}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorRenderer
+      value: 
+      objectReference: {fileID: 3711004607269633228}
+    - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: teamColorRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 3711004607269633228}
     - target: {fileID: 5183481824465512818, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: sceneId
       value: 0
