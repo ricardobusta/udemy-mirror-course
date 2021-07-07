@@ -273,6 +273,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 5.88
       objectReference: {fileID: 0}
+    - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.67
+      objectReference: {fileID: 0}
     - target: {fileID: 3939210438866746862, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: HealthBarColor
       value: 

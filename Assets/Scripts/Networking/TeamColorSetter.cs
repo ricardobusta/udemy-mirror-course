@@ -7,12 +7,15 @@ namespace Networking
     public class TeamColorSetter : NetworkBehaviour
     {
         [SerializeField] private Renderer[] teamColorRenderers;
+        [SerializeField] private Image healthBarColor;
+        [SerializeField] private SpriteRenderer miniMapColor;
         [SerializeField] private int[] teamColorMaterialIndexes;
-        [SerializeField] private Image HealthBarColor;
         [SerializeField] private Material teamColorMaterialPrefab;
 
         [SyncVar(hook = nameof(HandleTeamColorUpdate))]
         private Color teamColor;
+
+        private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
         public override void OnStartServer()
         {
@@ -24,10 +27,11 @@ namespace Networking
         {
             for (var i = 0; i < teamColorRenderers.Length; i++)
             {
-                teamColorRenderers[i].materials[teamColorMaterialIndexes[i]].SetColor("_EmissionColor", newColor);
+                teamColorRenderers[i].materials[teamColorMaterialIndexes[i]].SetColor(EmissionColor, newColor);
             }
 
-            HealthBarColor.color = newColor;
+            miniMapColor.color = newColor;
+            healthBarColor.color = newColor;
         }
     }
 }
