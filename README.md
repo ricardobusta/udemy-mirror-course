@@ -60,7 +60,12 @@ Learning how to make multiplayer RTS
 - I had this misconception of trying to get the player that owned certain object on client. However this is more like a server-side logic. So instead I had to make a network behaviour get the value server side and then only set the value to a syncvar to the clients. E.g. team color.
   - Idea for this: Teams should have material for their colors. Then each unit only gets the team id from the server side, and fetches the material locally.
 
+### Extra
+
+- TIL RectTransformUtility is nice
+
 ### Out of course scope notes:
 
-NavMesh generation at runtime: https://learn.unity.com/tutorial/runtime-navmesh-generation
+- NavMesh generation at runtime: https://learn.unity.com/tutorial/runtime-navmesh-generation
+
 

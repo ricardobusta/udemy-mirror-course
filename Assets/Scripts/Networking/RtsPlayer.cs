@@ -13,7 +13,8 @@ namespace Networking
         [SerializeField] private int initialResources;
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
-        [SerializeField] private Material templateMaterial;
+        [SerializeField] private Transform cameraTransform;
+        
 
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
@@ -28,6 +29,8 @@ namespace Networking
         public static Dictionary<int, Building> buildingMap;
 
         public event Action<int> ClientOnResourcesUpdated;
+
+        public Transform CameraTransform => cameraTransform;
 
         #region Server
 

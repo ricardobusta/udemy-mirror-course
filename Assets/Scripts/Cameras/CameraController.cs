@@ -26,6 +26,12 @@ public class CameraController : NetworkBehaviour
         _controls.Enable();
     }
 
+    public void SetScreenLimits(float minX, float minY, float maxX, float maxY)
+    {
+        screenLimitsMin = new Vector2(minX, minY);
+        screenLimitsMax = new Vector2(maxX, maxY);
+    }
+
     private void SetPreviousInput(InputAction.CallbackContext ctx)
     {
         _previousInput = ctx.ReadValue<Vector2>();
