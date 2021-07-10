@@ -47,6 +47,7 @@ namespace Menus
         [SerializeField]
         private Button lobbyMenuBackButton;
 
+        [SerializeField] private Button startGameButton;
 
         private List<GameObject> _menus;
 
@@ -63,20 +64,19 @@ namespace Menus
             SetupHomeMenu();
             SetupJoinMenu();
             SetupLobbyMenu();
-
-            EnableMenu(homeMenu);
-        }
-
-        private void OnEnable()
-        {
+            
             RtsNetworkManager.ClientOnConnected += HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
+            RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
+
+            EnableMenu(homeMenu);
         }
 
         private void OnDisable()
         {
             RtsNetworkManager.ClientOnConnected -= HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected -= HandleClientDisconnected;
+            RtsPlayer.AuthorityOnPartyOwnerStateUpdated -= AuthorityHandlePartyOwnerStateUpdated;
         }
 
         private void SetupHomeMenu()
@@ -89,6 +89,7 @@ namespace Menus
         {
             joinMenuBackButton.onClick.AddListener(() => { EnableMenu(homeMenu); });
             joinMenuJoinButton.onClick.AddListener(() => { NetworkManager.singleton.StartClient(); });
+            startGameButton.gameObject.SetActive(false);
         }
 
         private void SetupLobbyMenu()
@@ -104,6 +105,11 @@ namespace Menus
                 {
                     NetworkManager.singleton.StopClient();
                 }
+            });
+            
+            startGameButton.onClick.AddListener(() =>
+            {
+                NetworkClient.connection.identity.GetComponent<RtsPlayer>().CmdStartGame();
             });
         }
 
@@ -134,6 +140,12 @@ namespace Menus
         private void HandleClientDisconnected()
         {
             EnableMenu(homeMenu);
+        }
+        
+        private void AuthorityHandlePartyOwnerStateUpdated(bool state)
+        {
+            Debug.Log("I have party owner status");
+            startGameButton.gameObject.SetActive(state);
         }
     }
 }

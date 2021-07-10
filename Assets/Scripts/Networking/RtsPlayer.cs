@@ -14,7 +14,6 @@ namespace Networking
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
         [SerializeField] private Transform cameraTransform;
-        
 
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
@@ -30,7 +29,12 @@ namespace Networking
 
         public event Action<int> ClientOnResourcesUpdated;
 
+        public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
+
         public Transform CameraTransform => cameraTransform;
+
+        [field: SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
+        public bool IsPartyOwner { get; private set; }
 
         #region Server
 
@@ -65,9 +69,26 @@ namespace Networking
             Building.OnAuthorityBuildingDespawned += AuthorityHandleBuildingDespawned;
         }
 
+        public override void OnStartClient()
+        {
+            if (NetworkServer.active)
+            {
+                return;
+            }
+
+            RtsNetworkManager.RtsSingleton.Players.Add(this);
+        }
+
         public override void OnStopClient()
         {
-            if (!isClientOnly || !hasAuthority)
+            if (!isClientOnly)
+            {
+                return;
+            }
+            
+            RtsNetworkManager.RtsSingleton.Players.Remove(this);
+
+            if (!hasAuthority)
             {
                 return;
             }
@@ -96,6 +117,17 @@ namespace Networking
             NetworkServer.Spawn(buildingInstance, connectionToClient);
 
             AddResources(-buildingToPlace.Price);
+        }
+
+        [Command]
+        public void CmdStartGame()
+        {
+            if (!IsPartyOwner)
+            {
+                return;
+            }
+            
+            RtsNetworkManager.RtsSingleton.StartGame();
         }
 
         private void ServerHandleUnitSpawned(Unit unit)
@@ -158,6 +190,16 @@ namespace Networking
             MyBuildings.Remove(building);
         }
 
+        private void AuthorityHandlePartyOwnerStateUpdated(bool oldState, bool newState)
+        {
+            if (!hasAuthority)
+            {
+                return;
+            }
+
+            AuthorityOnPartyOwnerStateUpdated?.Invoke(newState);
+        }
+
         private bool BelongsToPlayer(NetworkBehaviour entity)
         {
             return entity.connectionToClient.connectionId == connectionToClient.connectionId;
@@ -181,6 +223,13 @@ namespace Networking
             Resources += resources;
         }
 
+        [Server]
+        public void SetPartyOwner(bool state)
+        {
+            Debug.Log($"Create player and set party owner to: {state}");
+            IsPartyOwner = state;
+        }
+
         #endregion Server
 
         #region Client
@@ -190,7 +239,7 @@ namespace Networking
             ClientOnResourcesUpdated?.Invoke(newResources);
         }
 
-        #endregion EndRegion
+        #endregion Client
         
         public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 position, int price)
         {
