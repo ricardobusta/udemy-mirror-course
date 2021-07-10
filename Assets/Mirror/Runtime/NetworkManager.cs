@@ -1104,7 +1104,7 @@ namespace Mirror
 
         void OnServerAddPlayerInternal(NetworkConnection conn, AddPlayerMessage msg)
         {
-            Debug.Log("NetworkManager.OnServerAddPlayer");
+            //Debug.Log("NetworkManager.OnServerAddPlayer");
 
             if (autoCreatePlayer && playerPrefab == null)
             {

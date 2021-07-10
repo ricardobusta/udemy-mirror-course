@@ -28,10 +28,9 @@ namespace Networking
             if (_isGameInProgress)
             {
                 conn.Disconnect();
-                Debug.Log("Disconnecting");
             }
             
-            Debug.Log("Connecting");
+            base.OnServerConnect(conn);
         }
 
         public override void OnServerDisconnect(NetworkConnection conn)
@@ -58,6 +57,8 @@ namespace Networking
             Players.Clear();
 
             _isGameInProgress = false;
+            
+            base.OnStopServer();
         }
 
         [Server]
@@ -82,7 +83,6 @@ namespace Networking
 
             Players.Add(rtsPlayer);
 
-            Debug.Log("Adding player");
             rtsPlayer.SetTeamColor(new Color(Mathf.Abs(randomColor.x), Mathf.Abs(randomColor.y),
                 Mathf.Abs(randomColor.z)));
             
@@ -105,6 +105,8 @@ namespace Networking
                     NetworkServer.Spawn(baseInstance, player.connectionToClient);
                 }
             }
+            
+            base.OnServerSceneChanged(sceneName);
         }
 
         #endregion Server
@@ -114,6 +116,7 @@ namespace Networking
         public override void OnClientConnect(NetworkConnection conn)
         {
             ClientOnConnected?.Invoke();
+            base.OnClientConnect(conn);
         }
 
         public override void OnClientDisconnect(NetworkConnection conn)
@@ -121,10 +124,12 @@ namespace Networking
             ClientOnDisconnected?.Invoke();
             Players.Clear();
             _isGameInProgress = false;
+            base.OnClientDisconnect(conn);
         }
 
         public override void OnStopClient()
         {
+            base.OnStopClient();
         }
 
         #endregion Client
