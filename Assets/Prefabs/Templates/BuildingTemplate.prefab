@@ -306,12 +306,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  teamColorRenderers:
-  - {fileID: 0}
+  teamColorConfigs: []
   healthBarColor: {fileID: 1129367220732224058}
   miniMapColor: {fileID: 8031856160373382166}
-  teamColorMaterialIndexes: 00000000
-  teamColorMaterialPrefab: {fileID: 2100000, guid: 48b47f87d0ee2594aa4c824413ef8700, type: 2}
 --- !u!1001 &7834860477711032684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -361,7 +358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5089671800527835098, guid: b70a1e276f132264593e7b50e494ea9f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5089671800527835098, guid: b70a1e276f132264593e7b50e494ea9f, type: 3}
       propertyPath: m_LocalPosition.x

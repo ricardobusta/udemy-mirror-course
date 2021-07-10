@@ -211,12 +211,15 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
-  - {fileID: 8222612800258519355, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
   - {fileID: 7235658497187953942, guid: e0d54c708fd21404b856a38686d4b5dd, type: 3}
-  - {fileID: 7601706898714158706, guid: 08d124b7ea2b31d479f82426ba1c4cb3, type: 3}
   - {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
   - {fileID: 8592932276092425633, guid: 717863178355a174bbfe4703956510fe, type: 3}
+  - {fileID: 8592932276092425633, guid: 14bcef9f10bd9d04c9d9640cb551ca2b, type: 3}
   - {fileID: 8592932276092425633, guid: d509e397cf84e8145aec5e62972c94cc, type: 3}
+  - {fileID: 953802562595934428, guid: d3953432171775a4abebd1bdbbdda5d9, type: 3}
+  - {fileID: 8696070033114710360, guid: 30a1a66e54bb7bc479778b61e4f0db07, type: 3}
+  - {fileID: 7271810253632510563, guid: 9c96bb317a25f634f8182cf64499ec5e, type: 3}
+  - {fileID: 2832803377571875610, guid: 9a11643475e921143bac43a96f266360, type: 3}
   playerSpawnerPrefab: {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
   gameOverHandlerPrefab: {fileID: 4963391096361833255, guid: e0d54c708fd21404b856a38686d4b5dd, type: 3}
 --- !u!4 &178142086
@@ -337,6 +340,7 @@ GameObject:
   - component: {fileID: 1571694259}
   - component: {fileID: 1571694258}
   - component: {fileID: 1571694257}
+  - component: {fileID: 1571694260}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -361,8 +365,8 @@ Camera:
   m_GameObject: {fileID: 1571694256}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -409,3 +413,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1571694260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571694256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2

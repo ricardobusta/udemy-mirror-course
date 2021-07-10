@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,16 +7,15 @@ namespace Networking
 {
     public class TeamColorSetter : NetworkBehaviour
     {
-        [SerializeField] private Renderer[] teamColorRenderers;
+        [SerializeField] private TeamColorConfigEntry[] teamColorConfigs;
         [SerializeField] private Image healthBarColor;
         [SerializeField] private SpriteRenderer miniMapColor;
-        [SerializeField] private int[] teamColorMaterialIndexes;
-        [SerializeField] private Material teamColorMaterialPrefab;
 
         [SyncVar(hook = nameof(HandleTeamColorUpdate))]
         private Color teamColor;
 
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
         public override void OnStartServer()
         {
@@ -25,13 +25,22 @@ namespace Networking
 
         private void HandleTeamColorUpdate(Color oldColor, Color newColor)
         {
-            for (var i = 0; i < teamColorRenderers.Length; i++)
+            foreach (var teamColorConfigEntry in teamColorConfigs)
             {
-                teamColorRenderers[i].materials[teamColorMaterialIndexes[i]].SetColor(EmissionColor, newColor);
+                teamColorConfigEntry.teamColorRenderer.materials[teamColorConfigEntry.teamColorMaterialIndex]
+                    .SetColor(teamColorConfigEntry.emission?EmissionColor:BaseColor, newColor);
             }
 
             miniMapColor.color = newColor;
             healthBarColor.color = newColor;
         }
+    }
+    
+    [Serializable]
+    public class TeamColorConfigEntry
+    {
+        public Renderer teamColorRenderer;
+        public int teamColorMaterialIndex;
+        public bool emission;
     }
 }
