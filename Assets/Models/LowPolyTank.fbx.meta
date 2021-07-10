@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cfea33597342e9640b42dae0015ca93d
+guid: cacd0af838ec25f4384e6d840b9a19dc
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -7,13 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: colour grid
-    second: {fileID: 2100000, guid: 90950112451645548ad123e3b0ba81fe, type: 2}
+      name: TankColour
+    second: {fileID: 2100000, guid: 12c120f2400576c4f97a98bcca5529bc, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: emission
-    second: {fileID: 2100000, guid: 1638a1fdc84d6e645b0681ddc2baa77d, type: 2}
+      name: TankGrey
+    second: {fileID: 2100000, guid: c4c5f95d06932564c8672b4bafeb1b28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TankLights
+    second: {fileID: 2100000, guid: 574c4e070e5dd0a40a02b979f582a836, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -51,8 +56,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -76,7 +81,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 1
+    normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
