@@ -55,10 +55,16 @@ Instructor Youtube Channel: https://www.youtube.com/c/DapperDinoCodingTutorials
   - This breaks everything. You need to spawn things (except the player) manually after changing to the proper scene.
 - When overriding some NetworkManager methods, we `MUST` call the base method. I did for only some, and forgot for `OnServerConnect`. This made the server stop spawning player game objects.
 - The instructor made the camera a NetworkBehaviour. For the game we do in the course, it could totally be a local cotntrolled object, but it might be useful for an actual RTS if we want to be able to control the client camera from the server side.
+
 #### Authority
 
 - Also has OnStartAuthority and OnStopAuthority callbacks
   - Called on clients that have authority over that object when you get authority or lose authority over it
+
+#### Steam Transport 
+
+- https://mirror-networking.gitbook.io/docs/transports/
+  - https://mirror-networking.gitbook.io/docs/transports/fizzysteamworks-transport
 
 ### Major Issues
 
