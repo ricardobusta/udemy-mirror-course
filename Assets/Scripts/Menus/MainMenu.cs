@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Mirror;
 using Networking;
+using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,7 +53,14 @@ namespace Menus
 
         [SerializeField] private TMP_Text[] playerNameTexts;
         [SerializeField] private Image[] playerColorDisplays;
-        
+
+        #region Steam
+
+        private Callback<LobbyCreated_t> lobbyCreated;
+        private Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
+        private Callback<LobbyEnter_t> lobbyEntered;
+
+        #endregion Steam
 
         private void Start()
         {
@@ -63,7 +70,7 @@ namespace Menus
             SetPlayerName(PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"));
 
             addressInput.onEndEdit.AddListener(SetAddress);
-            SetAddress(PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost"));
+            //SetAddress(PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost"));
 
             SetupHomeMenu();
             SetupJoinMenu();
@@ -73,6 +80,13 @@ namespace Menus
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
             RtsPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
+
+            if (RtsNetworkManager.USE_STEAM)
+            {
+                lobbyEntered = Callback<LobbyEnter_t>.Create(OnSteamLobbyEntered);
+                lobbyCreated = Callback<LobbyCreated_t>.Create(OnSteamLobbyCreated);
+                gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnSteamGameLobbyJoinRequested);
+            }
 
             EnableMenu(homeMenu);
         }
@@ -87,7 +101,7 @@ namespace Menus
 
         private void SetupHomeMenu()
         {
-            homeMenuHostButton.onClick.AddListener(() => { NetworkManager.singleton.StartHost(); });
+            homeMenuHostButton.onClick.AddListener(StartHost);
             homeMenuJoinButton.onClick.AddListener(() => { EnableMenu(joinMenu); });
         }
 
@@ -165,6 +179,48 @@ namespace Menus
                 playerNameTexts[i].text = isPlayer ? player.DisplayName : "Waiting for player...";
                 playerColorDisplays[i].color = isPlayer ? player.TeamColor : Color.black;
             }
+        }
+
+        private void StartHost()
+        {
+            if (RtsNetworkManager.USE_STEAM)
+            {
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
+                EnableMenu(null);
+                return;
+            }
+            NetworkManager.singleton.StartHost();
+        }
+
+        private void OnSteamLobbyCreated(LobbyCreated_t callback)
+        {
+            if (callback.m_eResult != EResult.k_EResultOK)
+            {
+                EnableMenu(homeMenu);
+                return;
+            }
+            
+            NetworkManager.singleton.StartHost();
+            SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress",
+                SteamUser.GetSteamID().ToString());
+        }
+
+        private void OnSteamGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
+        {
+            SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
+        }
+
+        private void OnSteamLobbyEntered(LobbyEnter_t callback)
+        {
+            if (NetworkServer.active)
+            {
+                return;
+            }
+
+            var hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress");
+
+            NetworkManager.singleton.networkAddress = hostAddress;
+            NetworkManager.singleton.StartClient();
         }
     }
 }

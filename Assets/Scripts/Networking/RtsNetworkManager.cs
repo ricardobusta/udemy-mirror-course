@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Buildings;
+using kcp2k;
 using Mirror;
+using Mirror.FizzySteam;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -10,6 +12,18 @@ namespace Networking
 {
     public class RtsNetworkManager : NetworkManager
     {
+        public static bool USE_STEAM
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return false;
+#else
+                return true;
+#endif
+            }
+        }
+
         [SerializeField] private GameObject unitBasePrefab;
         [SerializeField] private GameOverHandler gameOverHandlerPrefab;
 
@@ -30,7 +44,7 @@ namespace Networking
             {
                 conn.Disconnect();
             }
-            
+
             base.OnServerConnect(conn);
         }
 
@@ -58,7 +72,7 @@ namespace Networking
             Players.Clear();
 
             _isGameInProgress = false;
-            
+
             base.OnStopServer();
         }
 
@@ -88,7 +102,7 @@ namespace Networking
 
             rtsPlayer.SetTeamColor(new Color(Mathf.Abs(randomColor.x), Mathf.Abs(randomColor.y),
                 Mathf.Abs(randomColor.z)));
-            
+
             rtsPlayer.SetPartyOwner(Players.Count == 1);
         }
 
@@ -108,7 +122,7 @@ namespace Networking
                     NetworkServer.Spawn(baseInstance, player.connectionToClient);
                 }
             }
-            
+
             base.OnServerSceneChanged(sceneName);
         }
 
@@ -133,6 +147,22 @@ namespace Networking
         public override void OnStopClient()
         {
             base.OnStopClient();
+            SceneManager.LoadScene("Menu");
+        }
+
+        public override void Awake()
+        {
+            base.Awake();
+            if (USE_STEAM)
+            {
+                GetComponent<KcpTransport>().enabled = false;
+                transport = gameObject.AddComponent<FizzySteamworks>();
+                gameObject.AddComponent<SteamManager>();
+            }
+            else
+            {
+                
+            }
         }
 
         #endregion Client
