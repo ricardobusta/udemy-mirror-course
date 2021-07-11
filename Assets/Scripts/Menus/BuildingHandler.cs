@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Buildings;
+using Mirror;
 using Networking;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,11 +47,8 @@ namespace Menus
 
         private void Start()
         {
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                _player = player;
-                _playerSet = true;
-            });
+            _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            _playerSet = _player!=null;
 
             RtsPlayer.buildingMap = _buildingMap;
         }

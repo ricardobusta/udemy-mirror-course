@@ -154,11 +154,8 @@ namespace Buildings
 
         private void Start()
         {
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                _player = player;
-                _playerSet = true;
-            });
+            _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            _playerSet = _player!=null;
         }
     }
 }

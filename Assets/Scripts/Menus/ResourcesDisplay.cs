@@ -1,3 +1,4 @@
+using Mirror;
 using Networking;
 using TMPro;
 using UnityEngine;
@@ -14,13 +15,10 @@ namespace Menus
 
         private void Start()
         {
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                _player = player;
-                _playerSet = true;
-                _player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;
-                ClientHandleResourcesUpdated(_player.Resources);
-            });
+            _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            _playerSet = _player!=null;
+            _player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;
+            ClientHandleResourcesUpdated(_player.Resources);
         }
 
         private void OnDestroy()

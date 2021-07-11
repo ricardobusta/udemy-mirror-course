@@ -2461,7 +2461,6 @@ GameObject:
   - component: {fileID: 1788077793}
   - component: {fileID: 1788077792}
   - component: {fileID: 1788077794}
-  - component: {fileID: 1788077797}
   - component: {fileID: 1788077796}
   m_Layer: 0
   m_Name: UnitHandlers
@@ -2539,18 +2538,6 @@ MonoBehaviour:
   - {fileID: 1727202288531508148, guid: d509e397cf84e8145aec5e62972c94cc, type: 3}
   validMaterial: {fileID: 2100000, guid: cfb181001edd6714db34ab08a2c99805, type: 2}
   invalidMaterial: {fileID: 2100000, guid: d34551b352d125741a7e6eb6830fdcd8, type: 2}
---- !u!114 &1788077797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1788077791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f8922b7b90145eeb31ae85953ffb66b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1789585913
 GameObject:
   m_ObjectHideFlags: 0

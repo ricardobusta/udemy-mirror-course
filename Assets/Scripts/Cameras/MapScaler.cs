@@ -1,4 +1,6 @@
 using System;
+using Mirror;
+using Networking;
 using UnityEngine;
 using Utils;
 
@@ -18,10 +20,8 @@ namespace Cameras
             miniMap.SetScale(scale);
             miniMapCamera.orthographicSize = scale;
 
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                player.GetComponent<CameraController>().SetScreenLimits(-scale, -scale, scale, scale);
-            });
+            var player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            player.GetComponent<CameraController>().SetScreenLimits(-scale, -scale, scale, scale);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Buildings;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Networking
@@ -64,7 +65,7 @@ namespace Networking
         [Server]
         public void StartGame()
         {
-            if (Players.Count < 2)
+            if (Players.Count < 1)
             {
                 return;
             }
@@ -83,6 +84,8 @@ namespace Networking
 
             Players.Add(rtsPlayer);
 
+            rtsPlayer.GetClientDisplayName();
+
             rtsPlayer.SetTeamColor(new Color(Mathf.Abs(randomColor.x), Mathf.Abs(randomColor.y),
                 Mathf.Abs(randomColor.z)));
             
@@ -91,7 +94,7 @@ namespace Networking
 
         public override void OnServerSceneChanged(string sceneName)
         {
-            if (sceneName.EndsWith("Map.unity"))
+            if (sceneName == "Map")
             {
                 var gameOverHandler = Instantiate(gameOverHandlerPrefab);
 

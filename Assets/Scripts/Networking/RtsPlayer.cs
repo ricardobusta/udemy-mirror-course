@@ -18,7 +18,8 @@ namespace Networking
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
-        public Color TeamColor;
+        [field: SyncVar(hook = nameof(ClientHandleTeamColorUpdated))]
+        public Color TeamColor { get; private set; }
 
         private Material _playerMaterial;
         
@@ -29,12 +30,18 @@ namespace Networking
 
         public event Action<int> ClientOnResourcesUpdated;
 
+        public static event Action ClientOnInfoUpdated;
         public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
         public Transform CameraTransform => cameraTransform;
 
         [field: SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
         public bool IsPartyOwner { get; private set; }
+
+        [field: SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
+        public string DisplayName { get; private set; }
+
+        public static string localDisplayName;
 
         #region Server
 
@@ -46,6 +53,8 @@ namespace Networking
             Building.OnServerBuildingDespawned += ServerHandleBuildingDespawned;
 
             Resources = initialResources;
+            
+            DontDestroyOnLoad(gameObject);
         }
 
         public override void OnStopServer()
@@ -76,11 +85,15 @@ namespace Networking
                 return;
             }
 
+            DontDestroyOnLoad(gameObject);
+            
             RtsNetworkManager.RtsSingleton.Players.Add(this);
         }
 
         public override void OnStopClient()
         {
+            ClientOnInfoUpdated?.Invoke();
+            
             if (!isClientOnly)
             {
                 return;
@@ -205,6 +218,18 @@ namespace Networking
             return entity.connectionToClient.connectionId == connectionToClient.connectionId;
         }
 
+        [Command]
+        private void CmdSetDisplayName(string newName)
+        {
+            SetDisplayName(newName);
+        } 
+
+        [Server]
+        public void SetDisplayName(string newName)
+        {
+            DisplayName = newName;
+        }
+
         [Server]
         public void SetTeamColor(Color newTeamColor)
         {
@@ -226,7 +251,6 @@ namespace Networking
         [Server]
         public void SetPartyOwner(bool state)
         {
-            Debug.Log($"Create player and set party owner to: {state}");
             IsPartyOwner = state;
         }
 
@@ -237,6 +261,26 @@ namespace Networking
         private void ClientHandleResourcesUpdated(int oldResources, int newResources)
         {
             ClientOnResourcesUpdated?.Invoke(newResources);
+        }
+
+        private void ClientHandleDisplayNameUpdated(string oldName, string newName)
+        {
+            ClientOnInfoUpdated?.Invoke();
+        }
+
+        private void ClientHandleTeamColorUpdated(Color oldColor, Color newColor)
+        {
+            ClientOnInfoUpdated?.Invoke();
+        }
+
+        [ClientRpc]
+        public void GetClientDisplayName()
+        {
+            if (!hasAuthority)
+            {
+                return;
+            }
+            CmdSetDisplayName(localDisplayName);
         }
 
         #endregion Client

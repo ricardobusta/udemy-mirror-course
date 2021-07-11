@@ -51,6 +51,10 @@ namespace Menus
 
         private List<GameObject> _menus;
 
+        [SerializeField] private TMP_Text[] playerNameTexts;
+        [SerializeField] private Image[] playerColorDisplays;
+        
+
         private void Start()
         {
             _menus = new List<GameObject> {homeMenu, joinMenu, lobbyMenu};
@@ -68,6 +72,7 @@ namespace Menus
             RtsNetworkManager.ClientOnConnected += HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
+            RtsPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
 
             EnableMenu(homeMenu);
         }
@@ -77,6 +82,7 @@ namespace Menus
             RtsNetworkManager.ClientOnConnected -= HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected -= HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated -= AuthorityHandlePartyOwnerStateUpdated;
+            RtsPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
         }
 
         private void SetupHomeMenu()
@@ -124,6 +130,7 @@ namespace Menus
         private static void SetPlayerName(string name)
         {
             PlayerPrefs.SetString(PLAYER_NAME_PLAYER_PREF, name);
+            RtsPlayer.localDisplayName = name;
         }
 
         private static void SetAddress(string address)
@@ -144,8 +151,20 @@ namespace Menus
         
         private void AuthorityHandlePartyOwnerStateUpdated(bool state)
         {
-            Debug.Log("I have party owner status");
             startGameButton.gameObject.SetActive(state);
+        }
+
+        private void ClientHandleInfoUpdated()
+        {
+            var players = RtsNetworkManager.RtsSingleton.Players;
+
+            for (var i = 0; i < 4; i++)
+            {
+                var isPlayer = i < players.Count;
+                var player = isPlayer ? players[i] : null;
+                playerNameTexts[i].text = isPlayer ? player.DisplayName : "Waiting for player...";
+                playerColorDisplays[i].color = isPlayer ? player.TeamColor : Color.black;
+            }
         }
     }
 }

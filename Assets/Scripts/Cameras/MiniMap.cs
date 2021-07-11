@@ -1,4 +1,6 @@
 using System;
+using Mirror;
+using Networking;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,14 +13,12 @@ namespace Cameras
         [SerializeField] private RectTransform miniMapRect;
         [SerializeField] private float mapScale;
 
-        private Transform playerCameraTransform;
+        private Transform _playerCameraTransform;
 
         private void Start()
         {
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                playerCameraTransform = player.CameraTransform;
-            });
+            var player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            _playerCameraTransform = player.CameraTransform;
         }
 
         public void SetScale(float scale)
@@ -43,7 +43,7 @@ namespace Cameras
             var newCameraPos = new Vector3((relativePos.x * 2f - 1f) * mapScale, 0,
                 (relativePos.y * 2f - 1f) * mapScale);
 
-            playerCameraTransform.position = newCameraPos;
+            _playerCameraTransform.position = newCameraPos;
         }
 
         public void OnDrag(PointerEventData eventData)

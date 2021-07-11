@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Buildings;
+using Mirror;
 using Networking;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -32,12 +33,9 @@ namespace Units
             Unit.OnAuthorityUnitDespawned += AuthorityHandleUnityDespawned;
 
             GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
-            
-            LocalRtsPlayer.GetLocalPlayerAsync(player =>
-            {
-                _player = player;
-                _playerSet = true;
-            });
+
+            _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
+            _playerSet = _player!=null;
         }
 
         private void OnDestroy()

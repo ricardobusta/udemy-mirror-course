@@ -3,6 +3,8 @@ https://www.udemy.com/course/unity-multiplayer
 
 Learning how to make multiplayer RTS
 
+Instructor Youtube Channel: https://www.youtube.com/c/DapperDinoCodingTutorials
+
 # Takeaways
 
 ## Section 1 - Introduction
@@ -49,7 +51,10 @@ Learning how to make multiplayer RTS
 - Adding prefix Cmd and Rpc to remote methods help a lot on code readability.
 - connectionToClient in NetworkBehaviour is a good way to figure out if objects belong to the same user
 - Network manager has a `singleton` access.
-
+- When implementing a `lobby`, we need to remove the `Offline Scene` and `Online Scene` references from network manager.
+  - This breaks everything. You need to spawn things (except the player) manually after changing to the proper scene.
+- When overriding some NetworkManager methods, we `MUST` call the base method. I did for only some, and forgot for `OnServerConnect`. This made the server stop spawning player game objects.
+- The instructor made the camera a NetworkBehaviour. For the game we do in the course, it could totally be a local cotntrolled object, but it might be useful for an actual RTS if we want to be able to control the client camera from the server side.
 #### Authority
 
 - Also has OnStartAuthority and OnStopAuthority callbacks
@@ -63,6 +68,7 @@ Learning how to make multiplayer RTS
 ### Extra
 
 - TIL RectTransformUtility is nice
+- Looks very similar with https://docs-multiplayer.unity3d.com/, need to experiment with it sometime.
 
 ### Out of course scope notes:
 
