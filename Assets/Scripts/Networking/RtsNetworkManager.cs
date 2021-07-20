@@ -100,8 +100,7 @@ namespace Networking
 
             rtsPlayer.GetClientDisplayName();
 
-            rtsPlayer.SetTeamColor(new Color(Mathf.Abs(randomColor.x), Mathf.Abs(randomColor.y),
-                Mathf.Abs(randomColor.z)));
+            rtsPlayer.SetTeamColor(Players.Count - 1);
 
             rtsPlayer.SetPartyOwner(Players.Count == 1);
         }

@@ -10,6 +10,8 @@ namespace Networking
 {
     public class RtsPlayer : NetworkBehaviour
     {
+        public static readonly Color[] TEAM_COLORS = {Color.red, Color.blue, Color.green, Color.yellow};
+
         [SerializeField] private int initialResources;
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
@@ -19,7 +21,7 @@ namespace Networking
         public List<Building> MyBuildings { get; } = new List<Building>();
 
         [field: SyncVar(hook = nameof(ClientHandleTeamColorUpdated))]
-        public Color TeamColor { get; private set; }
+        public int TeamColor { get; private set; }
 
         private Material _playerMaterial;
         
@@ -231,7 +233,7 @@ namespace Networking
         }
 
         [Server]
-        public void SetTeamColor(Color newTeamColor)
+        public void SetTeamColor(int newTeamColor)
         {
             TeamColor = newTeamColor;
         }
@@ -268,7 +270,7 @@ namespace Networking
             ClientOnInfoUpdated?.Invoke();
         }
 
-        private void ClientHandleTeamColorUpdated(Color oldColor, Color newColor)
+        private void ClientHandleTeamColorUpdated(int oldColor, int newColor)
         {
             ClientOnInfoUpdated?.Invoke();
         }

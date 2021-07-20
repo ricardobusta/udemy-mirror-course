@@ -13,7 +13,7 @@ namespace Menus
     {
         private const string PLAYER_NAME_PLAYER_PREF = "PLAYER_NAME_PLAYER_PREF";
         private const string ADDRESS_PLAYER_PREF = "ADDRESS_PLAYER_PREF";
-
+        
         [Header("Menus")] [SerializeField] private GameObject homeMenu;
         [SerializeField] private GameObject joinMenu;
         [SerializeField] private GameObject lobbyMenu;
@@ -160,7 +160,7 @@ namespace Menus
                 var isPlayer = i < players.Count;
                 var player = isPlayer ? players[i] : null;
                 playerNameTexts[i].text = isPlayer ? player.DisplayName : "Waiting for player...";
-                playerColorDisplays[i].color = isPlayer ? player.TeamColor : Color.black;
+                playerColorDisplays[i].color = isPlayer ?  RtsPlayer.TEAM_COLORS[player.TeamColor % RtsPlayer.TEAM_COLORS.Length] : Color.black;
             }
         }
 
