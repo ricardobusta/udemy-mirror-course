@@ -14,37 +14,20 @@ namespace Menus
         private const string PLAYER_NAME_PLAYER_PREF = "PLAYER_NAME_PLAYER_PREF";
         private const string ADDRESS_PLAYER_PREF = "ADDRESS_PLAYER_PREF";
 
-        [Header("Menus")] //
-        [SerializeField]
-        private GameObject homeMenu;
+        [Header("Menus")] [SerializeField] private GameObject homeMenu;
+        [SerializeField] private GameObject joinMenu;
+        [SerializeField] private GameObject lobbyMenu;
 
-        [SerializeField] // 
-        private GameObject joinMenu;
+        [Header("Home Menu")] [SerializeField] private TMP_InputField playerName;
+        [SerializeField] private Button homeMenuHostIpButton;
+        [SerializeField] private Button homeMenuHostSteamButton;
+        [SerializeField] private Button homeMenuJoinButton;
 
-        [SerializeField] //
-        private GameObject lobbyMenu;
-
-        [Header("Home Menu")] //
-        [SerializeField]
-        private TMP_InputField playerName;
-
-        [SerializeField] //
-        private Button homeMenuHostButton;
-
-        [SerializeField] // 
-        private Button homeMenuJoinButton;
-
-        [Header("Join Menu")] //
-        [SerializeField]
-        private Button joinMenuJoinButton;
-
+        [Header("Join Menu")] [SerializeField] private Button joinMenuJoinButton;
         [SerializeField] private Button joinMenuBackButton;
+        [SerializeField] private TMP_InputField addressInput;
 
-        [SerializeField] // 
-        private TMP_InputField addressInput;
-
-        [Header("Lobby Menu")] //
-        [SerializeField]
+        [Header("Lobby Menu")] [SerializeField]
         private Button lobbyMenuBackButton;
 
         [SerializeField] private Button startGameButton;
@@ -70,12 +53,12 @@ namespace Menus
             SetPlayerName(PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"));
 
             addressInput.onEndEdit.AddListener(SetAddress);
-            //SetAddress(PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost"));
+            SetAddress(PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost"));
 
             SetupHomeMenu();
             SetupJoinMenu();
             SetupLobbyMenu();
-            
+
             RtsNetworkManager.ClientOnConnected += HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
@@ -101,7 +84,7 @@ namespace Menus
 
         private void SetupHomeMenu()
         {
-            homeMenuHostButton.onClick.AddListener(StartHost);
+            homeMenuHostIpButton.onClick.AddListener(StartIpHost);
             homeMenuJoinButton.onClick.AddListener(() => { EnableMenu(joinMenu); });
         }
 
@@ -126,7 +109,7 @@ namespace Menus
                     NetworkManager.singleton.StopClient();
                 }
             });
-            
+
             startGameButton.onClick.AddListener(() =>
             {
                 NetworkClient.connection.identity.GetComponent<RtsPlayer>().CmdStartGame();
@@ -150,7 +133,7 @@ namespace Menus
         private static void SetAddress(string address)
         {
             PlayerPrefs.SetString(ADDRESS_PLAYER_PREF, address);
-            NetworkManager.singleton.networkAddress = address;
+            //NetworkManager.singleton.networkAddress = address;
         }
 
         private void HandleClientConnected()
@@ -162,7 +145,7 @@ namespace Menus
         {
             EnableMenu(homeMenu);
         }
-        
+
         private void AuthorityHandlePartyOwnerStateUpdated(bool state)
         {
             startGameButton.gameObject.SetActive(state);
@@ -181,15 +164,15 @@ namespace Menus
             }
         }
 
-        private void StartHost()
+        private void StartIpHost()
         {
-            if (RtsNetworkManager.USE_STEAM)
-            {
-                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
-                EnableMenu(null);
-                return;
-            }
             NetworkManager.singleton.StartHost();
+        }
+
+        private void StartSteamHost()
+        {
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
+            EnableMenu(null);
         }
 
         private void OnSteamLobbyCreated(LobbyCreated_t callback)
@@ -199,7 +182,7 @@ namespace Menus
                 EnableMenu(homeMenu);
                 return;
             }
-            
+
             NetworkManager.singleton.StartHost();
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress",
                 SteamUser.GetSteamID().ToString());
