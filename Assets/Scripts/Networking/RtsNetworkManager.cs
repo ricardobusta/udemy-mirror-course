@@ -116,8 +116,11 @@ namespace Networking
 
                 foreach (var player in Players)
                 {
-                    var startPosition = GetStartPosition();
-                    var baseInstance = Instantiate(unitBasePrefab, startPosition.position, startPosition.rotation);
+                    var startPositionTransform = GetStartPosition();
+                    var startPosition = startPositionTransform.position;
+                    player.transform.position = startPosition;
+                    Debug.Log($"player {player.netId} starting position is {startPositionTransform}");
+                    var baseInstance = Instantiate(unitBasePrefab, startPosition, startPositionTransform.rotation);
 
                     NetworkServer.Spawn(baseInstance, player.connectionToClient);
                 }
