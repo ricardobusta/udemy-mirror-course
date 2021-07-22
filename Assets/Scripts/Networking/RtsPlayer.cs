@@ -17,6 +17,8 @@ namespace Networking
         [SerializeField] private float buildingRangeLimit;
         [SerializeField] private Transform cameraTransform;
 
+        public static event Action<RtsPlayer, string> OnMessageReceived;
+        
         public List<Unit> MyUnits { get; } = new List<Unit>();
         public List<Building> MyBuildings { get; } = new List<Building>();
 
@@ -255,10 +257,25 @@ namespace Networking
         {
             IsPartyOwner = state;
         }
+        
+        [Command]
+        public void CommandSendMessage(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                RpcReceiveMessage(message.Trim());
+            }
+        }
 
         #endregion Server
 
         #region Client
+        
+        [ClientRpc]
+        public void RpcReceiveMessage(string message)
+        {
+            OnMessageReceived?.Invoke(this, message);
+        }
 
         private void ClientHandleResourcesUpdated(int oldResources, int newResources)
         {

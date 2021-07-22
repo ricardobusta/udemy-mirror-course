@@ -55,6 +55,7 @@ namespace Menus
 
         public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab, int price, BoxCollider collider)
         {
+            StopBuilding();
             _buildingPreview = Instantiate(buildingPreviewPrefab);
             _buildingPreview.GetComponent<Renderer>();
             _buildingId = buildingId;
