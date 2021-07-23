@@ -114,7 +114,6 @@ MonoBehaviour:
     m_Bits: 1281
   buildingRangeLimit: 25
   cameraTransform: {fileID: 3628184600588852464}
-  TeamColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2677291870098203624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3628184600588852464
 Transform:
   m_ObjectHideFlags: 0
