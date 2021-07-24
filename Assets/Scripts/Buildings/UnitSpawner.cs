@@ -28,6 +28,7 @@ namespace Buildings
         private Vector3? _rallyPoint;
         private RtsPlayer _player;
         private bool _playerSet;
+        private EventSystem _eventSystem;
         
         #region Server
 
@@ -135,6 +136,11 @@ namespace Buildings
             {
                 return;
             }
+            
+            if (_eventSystem.IsPointerOverUIObject(eventData))
+            {
+                return;
+            }
 
             CmdQueueUnit();
         }
@@ -156,6 +162,7 @@ namespace Buildings
         {
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
+            _eventSystem = EventSystem.current;
         }
     }
 }

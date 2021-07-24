@@ -4,6 +4,7 @@ using Buildings;
 using Mirror;
 using Networking;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utils;
 
@@ -27,6 +28,7 @@ namespace Menus
         private bool _playerSet;
         private int _buildingPrice;
         private readonly Dictionary<int, Building> _buildingMap = new Dictionary<int, Building>();
+        private EventSystem _eventSystem;
 
         public event Action StartPlacingBuilding;
         public event Action StopPlacingBuilding;
@@ -49,6 +51,7 @@ namespace Menus
         {
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
+            _eventSystem = EventSystem.current;
 
             RtsPlayer.buildingMap = _buildingMap;
         }
@@ -91,6 +94,15 @@ namespace Menus
                 return;
             }
 
+            var canClick = !_eventSystem.IsPointerOverUIObject();
+            
+            if (!canClick || !_mainCamera.RayCast(out var hit, Mathf.Infinity, floorMask))
+            {
+                // Targeting outside of build area
+                _buildingPreview.gameObject.SetActive(false);
+                return;
+            }
+            
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 // Cancel build
@@ -105,13 +117,6 @@ namespace Menus
                 return;
             }
 
-            if (!_mainCamera.RayCast(out var hit, Mathf.Infinity, floorMask))
-            {
-                // Targeting outside of build area
-                _buildingPreview.gameObject.SetActive(false);
-                return;
-            }
-            
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 // Place building
@@ -131,9 +136,9 @@ namespace Menus
             var mat = _player.CanPlaceBuilding(_buildingCollider, hit.point, _buildingPrice)
                 ? validMaterial
                 : invalidMaterial;
-            foreach (var renderer in _buildingPreviewRenderers)
+            foreach (var previewRenderer in _buildingPreviewRenderers)
             {
-                renderer.material = mat;
+                previewRenderer.material = mat;
             }
         }
     }

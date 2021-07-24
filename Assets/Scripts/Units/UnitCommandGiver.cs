@@ -1,6 +1,7 @@
 using Buildings;
 using Combat;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utils;
 
@@ -10,12 +11,15 @@ namespace Units
     {
         [SerializeField] private UnitSelectionHandler unitSelectionHandler;
         [SerializeField] private LayerMask layerMask;
-
+        
+        private EventSystem _eventSystem;
         private Camera _mainCamera;
 
         private void Start()
         {
             _mainCamera = Camera.main;
+            _eventSystem = EventSystem.current;
+
             GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
         }
 
@@ -27,6 +31,11 @@ namespace Units
         private void Update()
         {
             if (!Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                return;
+            }
+
+            if (_eventSystem.IsPointerOverUIObject())
             {
                 return;
             }
