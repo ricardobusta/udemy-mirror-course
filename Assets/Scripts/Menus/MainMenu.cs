@@ -85,6 +85,7 @@ namespace Menus
         private void SetupHomeMenu()
         {
             homeMenuHostIpButton.onClick.AddListener(StartIpHost);
+            homeMenuHostSteamButton.onClick.AddListener(StartSteamHost);
             homeMenuJoinButton.onClick.AddListener(() => { EnableMenu(joinMenu); });
         }
 
@@ -182,10 +183,13 @@ namespace Menus
                 EnableMenu(homeMenu);
                 return;
             }
-
+            
+            var steamUserId = SteamUser.GetSteamID();
+            var steamName = SteamFriends.GetFriendPersonaName(steamUserId);
+            SetPlayerName(steamName);
             NetworkManager.singleton.StartHost();
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress",
-                SteamUser.GetSteamID().ToString());
+                steamUserId.ToString());
         }
 
         private void OnSteamGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
@@ -203,6 +207,9 @@ namespace Menus
             var hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress");
 
             NetworkManager.singleton.networkAddress = hostAddress;
+            var steamUserId = SteamUser.GetSteamID();
+            var steamName = SteamFriends.GetFriendPersonaName(steamUserId);
+            SetPlayerName(steamName);
             NetworkManager.singleton.StartClient();
         }
     }
