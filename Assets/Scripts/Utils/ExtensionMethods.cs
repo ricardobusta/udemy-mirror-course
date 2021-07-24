@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Utils
 {
-    public static class EventSystemExtensions
+    public static class ExtensionMethods
     {
         private static readonly List<RaycastResult> RaycastResult = new List<RaycastResult>();
         private static readonly int UILayer = LayerMask.NameToLayer("UI");
@@ -32,6 +32,24 @@ namespace Utils
             }
 
             return false;
+        }
+        
+        public static bool RayCast(this Camera camera, out RaycastHit hit, float maxDist, int layerMask)
+        {
+            var ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            return Physics.Raycast(ray, out hit, maxDist, layerMask);
+        }
+        
+        public static void Shuffle<T>(this IList<T> list)  
+        {  
+            var i = list.Count;  
+            while (i > 1) {  
+                i--;  
+                var j = Random.Range(0, i+1);  
+                var t = list[j];  
+                list[j] = list[i];  
+                list[i] = t;  
+            }  
         }
     }
 }

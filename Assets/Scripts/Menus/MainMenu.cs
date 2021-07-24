@@ -58,12 +58,13 @@ namespace Menus
         {
             _menus = new List<GameObject> {homeMenu, joinMenu, lobbyMenu};
 
+            playerName.text = PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"); 
+            SetPlayerName(playerName.text);
             playerName.onEndEdit.AddListener(SetPlayerName);
-            SetPlayerName(PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"));
 
             addressInput.text = PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost");
-            addressInput.onEndEdit.AddListener(SetAddress);
             SetAddress(addressInput.text);
+            addressInput.onEndEdit.AddListener(SetAddress);
 
             SetupHomeMenu();
             SetupJoinMenu();

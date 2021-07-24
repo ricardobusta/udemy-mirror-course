@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Buildings;
 using kcp2k;
 using Mirror;
 using Mirror.FizzySteam;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Networking
@@ -113,9 +115,13 @@ namespace Networking
 
                 NetworkServer.Spawn(gameOverHandler.gameObject);
 
+                var indexes = Enumerable.Range(0, startPositions.Count).ToList();
+                indexes.Shuffle();
+                var i = 0;
+
                 foreach (var player in Players)
                 {
-                    var startPositionTransform = GetStartPosition();
+                    var startPositionTransform = startPositions[indexes[i++]];
                     var startPosition = startPositionTransform.position;
                     player.transform.position = startPosition;
                     Debug.Log($"player {player.netId} starting position is {startPositionTransform}");
