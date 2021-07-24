@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2902081790058389684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127228195539652040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea368fb6f27ec2f40a40e20977992b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Channels: 0200000001000000
+  Timeout: 25
+  SteamAppID: 480
+  AllowSteamRelay: 1
+  UseNextGenSteamNetworking: 1
+  SteamUserID: 0
+--- !u!114 &8721775490742618547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127228195539652040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &512593743146219324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377648, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628711028391377651, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: transport
+      value: 
+      objectReference: {fileID: 2902081790058389684}
+    - target: {fileID: 628711028391377652, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+      propertyPath: m_Name
+      value: SteamNetworkManager Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 628711028391377653, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+--- !u!1 &1127228195539652040 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 628711028391377652, guid: acd13fd5291ea9e4ab5773d703fbfa83, type: 3}
+  m_PrefabInstance: {fileID: 512593743146219324}
+  m_PrefabAsset: {fileID: 0}

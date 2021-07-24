@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using kcp2k;
 using Mirror;
+using Mirror.FizzySteam;
 using Networking;
 using Steamworks;
 using TMPro;
@@ -26,6 +28,9 @@ namespace Menus
         [Header("Join Menu")] [SerializeField] private Button joinMenuJoinButton;
         [SerializeField] private Button joinMenuBackButton;
         [SerializeField] private TMP_InputField addressInput;
+
+        [SerializeField] private NetworkManager kcpNetworkManager;
+        [SerializeField] private NetworkManager steamNetworkManager;
 
         [Header("Lobby Menu")] [SerializeField]
         private Button lobbyMenuBackButton;
@@ -58,7 +63,19 @@ namespace Menus
             SetupHomeMenu();
             SetupJoinMenu();
             SetupLobbyMenu();
+            
+            ReplaceNetworkManager(steamNetworkManager);
 
+            EnableMenu(homeMenu);
+        }
+
+        public void ReplaceNetworkManager(NetworkManager newManagerPrefab)
+        {
+            if (NetworkManager.singleton != null)
+            {
+                DestroyImmediate(NetworkManager.singleton.gameObject);
+            }
+            
             RtsNetworkManager.ClientOnConnected += HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
@@ -71,7 +88,7 @@ namespace Menus
                 gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnSteamGameLobbyJoinRequested);
             }
 
-            EnableMenu(homeMenu);
+            Instantiate(newManagerPrefab);
         }
 
         private void OnDisable()
@@ -172,12 +189,14 @@ namespace Menus
 
         private void StartSteamHost()
         {
+           // ReplaceNetworkManager(steamNetworkManager);
             SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
             EnableMenu(null);
         }
 
         private void OnSteamLobbyCreated(LobbyCreated_t callback)
         {
+            Debug.Log("Lobby Created" + callback.m_ulSteamIDLobby);
             if (callback.m_eResult != EResult.k_EResultOK)
             {
                 EnableMenu(homeMenu);
@@ -194,11 +213,14 @@ namespace Menus
 
         private void OnSteamGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
         {
+            Debug.Log("OnSteamGameLobbyJoinRequested " + callback.m_steamIDFriend);
             SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
         }
 
         private void OnSteamLobbyEntered(LobbyEnter_t callback)
         {
+            Debug.Log("OnSteamLobbyEntered " + callback.m_ulSteamIDLobby);
+            
             if (NetworkServer.active)
             {
                 return;
