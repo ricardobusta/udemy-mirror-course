@@ -16,7 +16,8 @@ namespace Menus
         [SerializeField] private Building[] buildings;
         [SerializeField] private Material validMaterial;
         [SerializeField] private Material invalidMaterial;
-
+        [SerializeField] private GameObject buildAreaCircle;
+        
 
         private bool PlacingBuilding => _buildingId != -1;
         private int _buildingId;
@@ -41,6 +42,8 @@ namespace Menus
 
             _buildingId = -1;
 
+            buildAreaCircle.SetActive(false);
+            
             foreach (var building in buildings)
             {
                 _buildingMap.Add(building.Id, building);
@@ -77,7 +80,7 @@ namespace Menus
                 _buildingPreviewRenderers.Clear();
                 _buildingCollider = null;
             }
-
+            buildAreaCircle.SetActive(false);
             _buildingId = -1;
             StopPlacingBuilding?.Invoke();
         }
@@ -100,6 +103,7 @@ namespace Menus
             {
                 // Targeting outside of build area
                 _buildingPreview.gameObject.SetActive(false);
+                buildAreaCircle.SetActive(false);
                 return;
             }
             
@@ -128,10 +132,12 @@ namespace Menus
             {
                 // Re-enable building preview if get to this point
                 _buildingPreview.SetActive(true);
+                buildAreaCircle.SetActive(true);
             }
 
             // Move building preview
             _buildingPreview.transform.position = hit.point;
+            buildAreaCircle.transform.position = new Vector3(hit.point.x, 0.1f, hit.point.z) ;
             
             var mat = _player.CanPlaceBuilding(_buildingCollider, hit.point, _buildingPrice)
                 ? validMaterial

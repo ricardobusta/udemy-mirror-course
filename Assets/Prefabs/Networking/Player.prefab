@@ -112,7 +112,7 @@ MonoBehaviour:
   buildingBlockLayer:
     serializedVersion: 2
     m_Bits: 1281
-  buildingRangeLimit: 25
+  buildingRangeLimit: 15
   cameraTransform: {fileID: 3628184600588852464}
 --- !u!114 &2677291870098203624
 MonoBehaviour:
