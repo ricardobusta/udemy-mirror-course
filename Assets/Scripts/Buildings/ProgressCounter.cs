@@ -22,6 +22,11 @@ namespace Buildings
             counter.text = count.ToString();
         }
 
+        public void SetCounterText(string text)
+        {
+            counter.text = text;
+        }
+
         private void Update()
         {
             if (_targetValue < progressBar.fillAmount)

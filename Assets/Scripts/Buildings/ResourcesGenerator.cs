@@ -1,3 +1,4 @@
+using System;
 using Combat;
 using Mirror;
 using Networking;
@@ -10,6 +11,7 @@ namespace Buildings
         [SerializeField] private Health health;
         [SerializeField] private int resourcesGenerated;
         [SerializeField] private float generationCooldown;
+        [SerializeField] private ProgressCounter progressCounter;
 
         private RtsPlayer _player;
         private float _currentCooldown;
@@ -36,10 +38,12 @@ namespace Buildings
             if (_currentCooldown > 0)
             {
                 _currentCooldown -= Time.deltaTime;
+                progressCounter.SetValue(1 - (_currentCooldown / generationCooldown));
                 return;
             }
 
             _currentCooldown = generationCooldown;
+            progressCounter.SetValue(0);
             _player.AddResources(resourcesGenerated);
         }
 
@@ -54,5 +58,10 @@ namespace Buildings
         }
         
         #endregion Server
+
+        private void Start()
+        {
+            progressCounter.SetCounter(resourcesGenerated);
+        }
     }
 }

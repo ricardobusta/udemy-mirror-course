@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7156512340192462123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592932276092425633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8e4cf057b2faa45829611100941fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: {fileID: 1657015269806098374}
+  unitPrefab: {fileID: 9049548118176322705, guid: 9c96bb317a25f634f8182cf64499ec5e, type: 3}
+  spawnDistance: 2.5
+  spawnMoveDistance: 3
+  progressCounter: {fileID: 630650358360062408}
+  maxUnitQueue: 5
+  unitSpawnTime: 5
 --- !u!1 &5201906078619092235
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,27 +102,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7156512340192462123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8592932276092425633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce8e4cf057b2faa45829611100941fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: {fileID: 1657015269806098374}
-  unitPrefab: {fileID: 9049548118176322705, guid: 9c96bb317a25f634f8182cf64499ec5e, type: 3}
-  spawnDistance: 2.5
-  spawnMoveDistance: 3
-  progressCounter: {fileID: 5069588346133502653}
-  maxUnitQueue: 5
-  unitSpawnTime: 5
 --- !u!1001 &732276677126100339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,7 +257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3484974664710685991, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -343,7 +343,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2045097425210258378, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
   m_PrefabInstance: {fileID: 1108828480463439170}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6815121129976596304
+--- !u!1001 &1156970018873467941
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -352,7 +352,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1478262665381561045, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
       propertyPath: m_Name
-      value: SpawnProgressCanvas
+      value: ProgressCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
       propertyPath: m_Pivot.x
@@ -364,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
       propertyPath: m_AnchorMax.x
@@ -396,10 +396,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
-      propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9188099550409229204, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
@@ -452,10 +448,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
---- !u!114 &5069588346133502653 stripped
+--- !u!114 &630650358360062408 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -7435751728693322259, guid: b4eea9882f2a2d34db062408d0e8a596, type: 3}
-  m_PrefabInstance: {fileID: 6815121129976596304}
+  m_PrefabInstance: {fileID: 1156970018873467941}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

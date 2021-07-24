@@ -281,7 +281,7 @@ Transform:
   - {fileID: 3335386953543056744}
   - {fileID: 7977840369720979057}
   m_Father: {fileID: 2832803377571875612}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &7597436465800027141
 GameObject:
@@ -637,6 +637,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 679327395929643423, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: m_Pitch
+      value: 1.23
+      objectReference: {fileID: 0}
     - target: {fileID: 706796269875641244, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: m_Size.x
       value: 0.8782593
@@ -692,6 +696,10 @@ PrefabInstance:
     - target: {fileID: 3197095837505575596, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: teamColorConfigs.Array.data[0].teamColorMaterialIndex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850718276928101687, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6591951880020309841, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: m_LocalScale.x
