@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using kcp2k;
 using Mirror;
@@ -15,7 +17,7 @@ namespace Menus
     {
         private const string PLAYER_NAME_PLAYER_PREF = "PLAYER_NAME_PLAYER_PREF";
         private const string ADDRESS_PLAYER_PREF = "ADDRESS_PLAYER_PREF";
-        
+
         [Header("Menus")] [SerializeField] private GameObject homeMenu;
         [SerializeField] private GameObject joinMenu;
         [SerializeField] private GameObject lobbyMenu;
@@ -23,7 +25,8 @@ namespace Menus
         [Header("Home Menu")] [SerializeField] private TMP_InputField playerName;
         [SerializeField] private Button homeMenuHostIpButton;
         [SerializeField] private Button homeMenuHostSteamButton;
-        [SerializeField] private Button homeMenuJoinButton;
+        [SerializeField] private Button homeMenuJoinIpButton;
+        [SerializeField] private Button homeMenuJoinSteamButton;
 
         [Header("Join Menu")] [SerializeField] private Button joinMenuJoinButton;
         [SerializeField] private Button joinMenuBackButton;
@@ -47,6 +50,7 @@ namespace Menus
         private Callback<LobbyCreated_t> lobbyCreated;
         private Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
         private Callback<LobbyEnter_t> lobbyEntered;
+        private Callback<SteamNetConnectionStatusChangedCallback_t> connectionStatusChanged;
 
         #endregion Steam
 
@@ -57,14 +61,13 @@ namespace Menus
             playerName.onEndEdit.AddListener(SetPlayerName);
             SetPlayerName(PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"));
 
+            addressInput.text = PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost");
             addressInput.onEndEdit.AddListener(SetAddress);
-            SetAddress(PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost"));
+            SetAddress(addressInput.text);
 
             SetupHomeMenu();
             SetupJoinMenu();
             SetupLobbyMenu();
-            
-            ReplaceNetworkManager(steamNetworkManager);
 
             EnableMenu(homeMenu);
         }
@@ -75,7 +78,7 @@ namespace Menus
             {
                 DestroyImmediate(NetworkManager.singleton.gameObject);
             }
-            
+
             RtsNetworkManager.ClientOnConnected += HandleClientConnected;
             RtsNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
             RtsPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
@@ -85,6 +88,8 @@ namespace Menus
             {
                 lobbyEntered = Callback<LobbyEnter_t>.Create(OnSteamLobbyEntered);
                 lobbyCreated = Callback<LobbyCreated_t>.Create(OnSteamLobbyCreated);
+                connectionStatusChanged =
+                    Callback<SteamNetConnectionStatusChangedCallback_t>.Create(OnConnectionStatusChanged);
                 gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnSteamGameLobbyJoinRequested);
             }
 
@@ -103,7 +108,16 @@ namespace Menus
         {
             homeMenuHostIpButton.onClick.AddListener(StartIpHost);
             homeMenuHostSteamButton.onClick.AddListener(StartSteamHost);
-            homeMenuJoinButton.onClick.AddListener(() => { EnableMenu(joinMenu); });
+            homeMenuJoinIpButton.onClick.AddListener(() =>
+            {
+                ReplaceNetworkManager(kcpNetworkManager);
+                EnableMenu(joinMenu);
+            });
+            homeMenuJoinSteamButton.onClick.AddListener(() =>
+            {
+                ReplaceNetworkManager(steamNetworkManager);
+                EnableMenu(joinMenu);
+            });
         }
 
         private void SetupJoinMenu()
@@ -151,7 +165,6 @@ namespace Menus
         private static void SetAddress(string address)
         {
             PlayerPrefs.SetString(ADDRESS_PLAYER_PREF, address);
-            //NetworkManager.singleton.networkAddress = address;
         }
 
         private void HandleClientConnected()
@@ -178,20 +191,35 @@ namespace Menus
                 var isPlayer = i < players.Count;
                 var player = isPlayer ? players[i] : null;
                 playerNameTexts[i].text = isPlayer ? player.DisplayName : "Waiting for player...";
-                playerColorDisplays[i].color = isPlayer ?  RtsPlayer.TEAM_COLORS[player.TeamColor % RtsPlayer.TEAM_COLORS.Length] : Color.black;
+                playerColorDisplays[i].color = isPlayer
+                    ? RtsPlayer.TEAM_COLORS[player.TeamColor % RtsPlayer.TEAM_COLORS.Length]
+                    : Color.black;
             }
         }
 
         private void StartIpHost()
         {
-            NetworkManager.singleton.StartHost();
+            IEnumerator StartHostRoutine()
+            {
+                ReplaceNetworkManager(kcpNetworkManager);
+                yield return null;
+                NetworkManager.singleton.StartHost();
+            }
+
+            StartCoroutine(StartHostRoutine());
         }
 
         private void StartSteamHost()
         {
-           // ReplaceNetworkManager(steamNetworkManager);
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
-            EnableMenu(null);
+            IEnumerator StartHostRoutine()
+            {
+                ReplaceNetworkManager(steamNetworkManager);
+                EnableMenu(null);
+                yield return null;
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
+            }
+
+            StartCoroutine(StartHostRoutine());
         }
 
         private void OnSteamLobbyCreated(LobbyCreated_t callback)
@@ -202,13 +230,13 @@ namespace Menus
                 EnableMenu(homeMenu);
                 return;
             }
-            
+
             var steamUserId = SteamUser.GetSteamID();
             var steamName = SteamFriends.GetFriendPersonaName(steamUserId);
             SetPlayerName(steamName);
-            NetworkManager.singleton.StartHost();
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress",
                 steamUserId.ToString());
+            NetworkManager.singleton.StartHost();
         }
 
         private void OnSteamGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
@@ -220,7 +248,7 @@ namespace Menus
         private void OnSteamLobbyEntered(LobbyEnter_t callback)
         {
             Debug.Log("OnSteamLobbyEntered " + callback.m_ulSteamIDLobby);
-            
+
             if (NetworkServer.active)
             {
                 return;
@@ -233,6 +261,11 @@ namespace Menus
             var steamName = SteamFriends.GetFriendPersonaName(steamUserId);
             SetPlayerName(steamName);
             NetworkManager.singleton.StartClient();
+        }
+
+        private void OnConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t param)
+        {
+            Debug.Log(param.m_info.m_identityRemote.GetSteamID64());
         }
     }
 }

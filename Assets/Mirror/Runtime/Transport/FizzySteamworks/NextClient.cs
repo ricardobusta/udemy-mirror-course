@@ -92,7 +92,7 @@ namespace Mirror.FizzySteam
       }
       catch (FormatException)
       {
-        Debug.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
+        Debug.LogError($"Connection string was not in the right format. Did you enter a SteamId? {host}");
         Error = true;
         OnConnectionFailed();
       }
