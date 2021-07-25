@@ -125,7 +125,7 @@ namespace Menus
         {
             joinMenuBackButton.onClick.AddListener(() => { EnableMenu(homeMenu); });
             joinMenuJoinButton.onClick.AddListener(() => { NetworkManager.singleton.StartClient(); });
-            startGameButton.gameObject.SetActive(false);
+            startGameButton.interactable = false;
         }
 
         private void SetupLobbyMenu()
@@ -180,7 +180,7 @@ namespace Menus
 
         private void AuthorityHandlePartyOwnerStateUpdated(bool state)
         {
-            startGameButton.gameObject.SetActive(state);
+            startGameButton.interactable = state;
         }
 
         private void ClientHandleInfoUpdated()
