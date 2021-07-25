@@ -8,6 +8,7 @@ using Networking;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -27,6 +28,7 @@ namespace Menus
         [SerializeField] private Button homeMenuHostSteamButton;
         [SerializeField] private Button homeMenuJoinIpButton;
         [SerializeField] private Button homeMenuJoinSteamButton;
+        [SerializeField] private Button quitGameButton;
 
         [Header("Join Menu")] [SerializeField] private Button joinMenuJoinButton;
         [SerializeField] private Button joinMenuBackButton;
@@ -39,7 +41,6 @@ namespace Menus
         private Button lobbyMenuBackButton;
         [SerializeField] private Button copySteamIdButton;
         
-
         [SerializeField] private Button startGameButton;
 
         private List<GameObject> _menus;
@@ -69,6 +70,8 @@ namespace Menus
             addressInput.text = PlayerPrefs.GetString(ADDRESS_PLAYER_PREF, "localhost");
             SetAddress(addressInput.text);
             addressInput.onEndEdit.AddListener(SetAddress);
+            
+            quitGameButton.onClick.AddListener(Application.Quit);
 
             SetupHomeMenu();
             SetupJoinMenu();
@@ -109,6 +112,8 @@ namespace Menus
             RtsPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
         }
 
+        private bool joiningSteam = false;
+
         private void SetupHomeMenu()
         {
             homeMenuHostIpButton.onClick.AddListener(StartIpHost);
@@ -116,19 +121,36 @@ namespace Menus
             homeMenuJoinIpButton.onClick.AddListener(() =>
             {
                 ReplaceNetworkManager(kcpNetworkManager);
+                joiningSteam = false;
                 EnableMenu(joinMenu);
             });
             homeMenuJoinSteamButton.onClick.AddListener(() =>
             {
                 ReplaceNetworkManager(steamNetworkManager);
-                EnableMenu(joinMenu);
+                joiningSteam = true;
+
+                IEnumerator EnableMenuWithDelay()
+                {
+                    yield return null;
+                    yield return null;
+                    EnableMenu(joinMenu);
+                }
+
+                StartCoroutine(EnableMenuWithDelay());
             });
         }
 
         private void SetupJoinMenu()
         {
             joinMenuBackButton.onClick.AddListener(() => { EnableMenu(homeMenu); });
-            joinMenuJoinButton.onClick.AddListener(() => { NetworkManager.singleton.StartClient(); });
+            joinMenuJoinButton.onClick.AddListener(() =>
+            {
+                if (joiningSteam)
+                {
+                    NetworkManager.singleton.networkAddress = addressInput.text;
+                }
+                NetworkManager.singleton.StartClient();
+            });
             startGameButton.interactable = false;
         }
 
@@ -274,6 +296,14 @@ namespace Menus
         private void OnConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t param)
         {
             Debug.Log(param.m_info.m_identityRemote.GetSteamID64());
+        }
+
+        private void Update()
+        {
+            if (Keyboard.current.f2Key.wasPressedThisFrame)
+            {
+                Screen.SetResolution(1920, 1080, true);
+            }
         }
     }
 }
