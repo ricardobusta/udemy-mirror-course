@@ -175,7 +175,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 285dbc553934388498f7a17189ebf5aa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 285dbc553934388498f7a17189ebf5aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -317,10 +317,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  unitName: 
   buildingPreview: {fileID: 1749076567191908314}
   icon: {fileID: 0}
   id: -1
   price: 0
+  buildLimit: 0
 --- !u!114 &4726727494867567474
 MonoBehaviour:
   m_ObjectHideFlags: 0

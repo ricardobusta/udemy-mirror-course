@@ -26,6 +26,7 @@ namespace Combat
         {
             if (!targetGameObject.TryGetComponent<Targetable>(out var newTarget))
             {
+                Target = null;
                 return;
             }
             
@@ -41,7 +42,7 @@ namespace Combat
         [Server]
         private void ServerHandleGameOver()
         {
-            
+            Target = null;
         }
 
         #endregion Server
