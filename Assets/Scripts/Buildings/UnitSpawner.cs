@@ -45,6 +45,11 @@ namespace Buildings
         [Server]
         private void ProduceUnits()
         {
+            if (!_playerSet)
+            {
+                return;
+            }
+            
             if (queuedUnits == 0)
             {
                 return;
@@ -57,6 +62,11 @@ namespace Buildings
                 return;
             }
 
+            if (_player.UnitCount >= _player.MaxUnitBuildLimit)
+            {
+                return;
+            }
+            
             var (spawnPos, rallyPos, rotation) = GetSpawnInfo();
 
             var unitInstance = Instantiate(unitPrefab, spawnPos, rotation);

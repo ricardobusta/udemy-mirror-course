@@ -114,6 +114,7 @@ MonoBehaviour:
     m_Bits: 1281
   buildingRangeLimit: 15
   cameraTransform: {fileID: 3628184600588852464}
+  maxUnitBuildLimit: 50
 --- !u!114 &2677291870098203624
 MonoBehaviour:
   m_ObjectHideFlags: 0

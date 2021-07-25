@@ -22,6 +22,7 @@ namespace Networking
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
         [SerializeField] private Transform cameraTransform;
+        [SerializeField] private int maxUnitBuildLimit;
 
         public static event Action<RtsPlayer, string> OnMessageReceived;
         
@@ -43,6 +44,8 @@ namespace Networking
         public static event Action ClientOnInfoUpdated;
         public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
+        public static event Action<int, int> ClientOnUnitCountUpdated;
+
         public Transform CameraTransform => cameraTransform;
 
         [field: SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
@@ -50,6 +53,14 @@ namespace Networking
 
         [field: SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
         public string DisplayName { get; private set; }
+
+        [field: SyncVar(hook = nameof(OnPlayerUnitCountUpdated))]
+        public int UnitCount { get; private set; }
+        
+        [field: SyncVar(hook = nameof(OnPlayerBuildLimitUpdated))]
+        public int UnitBuildLimit { get; private set; }
+
+        public int MaxUnitBuildLimit => Mathf.Min(UnitBuildLimit, maxUnitBuildLimit);
 
         public static string localDisplayName;
 
@@ -62,6 +73,7 @@ namespace Networking
             Building.OnServerBuildingSpawned += ServerHandleBuildingSpawned;
             Building.OnServerBuildingDespawned += ServerHandleBuildingDespawned;
 
+            UnitCount = 0;
             Resources = initialResources;
             
             DontDestroyOnLoad(gameObject);
@@ -161,6 +173,7 @@ namespace Networking
             }
 
             MyUnits.Add(unit);
+            UnitCount++;
         }
 
         private void ServerHandleUnitDespawned(Unit unit)
@@ -171,6 +184,7 @@ namespace Networking
             }
 
             MyUnits.Remove(unit);
+            UnitCount--;
         }
 
         private void ServerHandleBuildingSpawned(Building building)
@@ -181,6 +195,7 @@ namespace Networking
             }
 
             MyBuildings.Add(building);
+            UnitBuildLimit += building.BuildLimit;
         }
 
         private void ServerHandleBuildingDespawned(Building building)
@@ -191,6 +206,7 @@ namespace Networking
             }
 
             MyBuildings.Remove(building);
+            UnitBuildLimit -= building.BuildLimit;
         }
 
         private void AuthorityHandleUnitSpawned(Unit unit)
@@ -306,6 +322,16 @@ namespace Networking
                 return;
             }
             CmdSetDisplayName(localDisplayName);
+        }
+
+        public void OnPlayerUnitCountUpdated(int _, int newUnitCount)
+        {
+            ClientOnUnitCountUpdated?.Invoke(newUnitCount, MaxUnitBuildLimit);
+        }
+
+        public void OnPlayerBuildLimitUpdated(int _, int newBuildLimit)
+        {
+            ClientOnUnitCountUpdated?.Invoke(UnitCount, Mathf.Min(newBuildLimit, maxUnitBuildLimit));
         }
 
         #endregion Client

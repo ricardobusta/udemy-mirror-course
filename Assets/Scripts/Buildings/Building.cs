@@ -10,6 +10,7 @@ namespace Buildings
         [SerializeField] private Sprite icon;
         [SerializeField] private int id = -1;
         [SerializeField] private int price;
+        [SerializeField] private int buildLimit;
         
         public static event Action<Building> OnServerBuildingSpawned;
         public static event Action<Building> OnServerBuildingDespawned;
@@ -21,6 +22,7 @@ namespace Buildings
         public int Id => id;
         public int Price => price;
         public GameObject BuildingPreview => buildingPreview;
+        public int BuildLimit =>buildLimit;
 
         #region Server
 

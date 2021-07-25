@@ -30,8 +30,14 @@ namespace Buildings
         [Server]
         private void ServerHandleOnDie()
         {
-            ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
             NetworkServer.Destroy(gameObject);
+            
+            if (connectionToClient == null)
+            {
+                return;
+            }
+            
+            ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
         }
 
         #endregion Server
