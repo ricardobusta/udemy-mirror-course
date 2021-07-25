@@ -126,7 +126,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   health: {fileID: 1657015269806098374}
-  resourcesGenerated: 100
+  resourcesGenerated: 5
   generationCooldown: 1
   progressCounter: {fileID: 5648161365499537112}
 --- !u!1001 &1108828480463439170
@@ -214,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845841682934579844, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: maxHealth
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2045097425210258378, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_RootOrder
@@ -274,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8656872587062038755, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_Name
-      value: ResourceGenerator
+      value: Gatherer
       objectReference: {fileID: 0}
     - target: {fileID: 8892753655427760901, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_Size.x

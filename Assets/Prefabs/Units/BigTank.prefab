@@ -372,7 +372,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8158079801017502201, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: maxHealth
-      value: 15
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 186069274728437177, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: m_Speed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 186069274728437177, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: m_Acceleration
@@ -487,9 +491,21 @@ PrefabInstance:
       value: 1.629
       objectReference: {fileID: 0}
     - target: {fileID: 7604544340243335275, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: attackRange
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604544340243335275, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: rotationSpeed
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604544340243335275, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 8696070033114710360, guid: 30a1a66e54bb7bc479778b61e4f0db07, type: 3}
+    - target: {fileID: 7737265738641473481, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
+      propertyPath: resourceCost
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 8222612800258519354, guid: da72feaadc721a345aaf78ac25c7f55d, type: 3}
       propertyPath: sceneId
       value: 0

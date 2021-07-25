@@ -203,7 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: price
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: unitName
@@ -256,6 +256,10 @@ PrefabInstance:
     - target: {fileID: 1831839279365713625, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1845841682934579844, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: maxHealth
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3033492789644914358, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_SizeDelta.x
