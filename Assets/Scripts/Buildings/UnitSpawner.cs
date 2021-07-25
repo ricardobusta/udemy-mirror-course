@@ -147,7 +147,6 @@ namespace Buildings
 
         public void OnQueueCountUpdate(int oldValue, int newValue)
         {
-            progressCounter.gameObject.SetActive(newValue != 0);
             progressCounter.SetCounter(newValue);
         }
 
@@ -163,6 +162,7 @@ namespace Buildings
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
             _eventSystem = EventSystem.current;
+            progressCounter.SetPrice(unitPrefab.ResourceCost);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Buildings
     {
         [SerializeField] private Image progressBar;
         [SerializeField] private TMP_Text counter;
+        [SerializeField] private TMP_Text price;
 
         private float _targetValue;
         private float _fillVelocity;
@@ -22,9 +23,9 @@ namespace Buildings
             counter.text = count.ToString();
         }
 
-        public void SetCounterText(string text)
+        public void SetPrice(int value)
         {
-            counter.text = text;
+            price.text = value.ToString();
         }
 
         private void Update()
