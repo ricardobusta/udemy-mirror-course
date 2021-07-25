@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 9202106964880464518}
   - component: {fileID: 6140152409652622915}
   m_Layer: 8
-  m_Name: UnitSpawner (7)
+  m_Name: NeutralSmallTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 2798881015858971514}
   - component: {fileID: 232591417816135305}
   m_Layer: 8
-  m_Name: UnitSpawner (6)
+  m_Name: NeutralSmallTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 5098523727315273770}
   - component: {fileID: 4926951030621580093}
   m_Layer: 8
-  m_Name: UnitSpawner (1)
+  m_Name: NeutralStorageSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c5f5b174124628991b316e13ccd9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 1021092745599039753, guid: 1e136205383473c4f92ab8093ab160e7, type: 3}
+  unitPrefab: {fileID: 7339006049560995042, guid: e694d6b981d219f47afbf539ee34c468, type: 3}
 --- !u!65 &333317813991383560
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 4802518384156110307}
   - component: {fileID: 5040708271522668003}
   m_Layer: 8
-  m_Name: UnitSpawner (2)
+  m_Name: NeutralFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -744,7 +744,7 @@ GameObject:
   - component: {fileID: 2216029908115154243}
   - component: {fileID: 8566727843260330952}
   m_Layer: 8
-  m_Name: UnitSpawner
+  m_Name: NeutralGathererSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,7 +788,7 @@ GameObject:
   - component: {fileID: 4725746549997560250}
   - component: {fileID: 2943280013638433029}
   m_Layer: 8
-  m_Name: UnitSpawner (4)
+  m_Name: NeutralBigTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -905,7 +905,7 @@ GameObject:
   - component: {fileID: 1933947470473647270}
   - component: {fileID: 7824580758725669191}
   m_Layer: 8
-  m_Name: UnitSpawner (3)
+  m_Name: Neutral Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 1877129864726997763}
   - component: {fileID: 3548954659643046821}
   m_Layer: 8
-  m_Name: UnitSpawner (5)
+  m_Name: NeutralBigTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
