@@ -67,7 +67,14 @@ namespace Buildings
 
         private void Start()
         {
-            progressCounter.SetCounter(resourcesGenerated);
+            if (hasAuthority)
+            {
+                progressCounter.SetCounter(resourcesGenerated);
+            }
+            else
+            {
+                progressCounter.gameObject.SetActive(false);
+            }
         }
     }
 }

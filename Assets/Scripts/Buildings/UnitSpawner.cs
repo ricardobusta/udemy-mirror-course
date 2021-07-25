@@ -157,12 +157,18 @@ namespace Buildings
 
         public void OnQueueCountUpdate(int oldValue, int newValue)
         {
-            progressCounter.SetCounter(newValue);
+            if (hasAuthority)
+            {
+                progressCounter.SetCounter(newValue);
+            }
         }
 
         public void OnProgressUpdate(float oldValue, float newValue)
         {
-            progressCounter.SetValue(newValue / unitSpawnTime);
+            if (hasAuthority)
+            {
+                progressCounter.SetValue(newValue / unitSpawnTime);
+            }
         }
 
         #endregion Client
@@ -172,7 +178,16 @@ namespace Buildings
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
             _eventSystem = EventSystem.current;
-            progressCounter.SetPrice(unitPrefab.ResourceCost);
+
+            if (hasAuthority)
+            {
+                progressCounter.SetPrice(unitPrefab.ResourceCost);
+            }
+            else
+            {
+                progressCounter.gameObject.SetActive(false);
+            }
+            
         }
     }
 }
