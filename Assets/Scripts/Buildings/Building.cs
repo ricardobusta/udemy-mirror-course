@@ -12,6 +12,8 @@ namespace Buildings
         [SerializeField] private int id = -1;
         [SerializeField] private int price;
         [SerializeField] private int buildLimit;
+        [SerializeField] private bool isGatherer;
+        
         
         public static event Action<Building> OnServerBuildingSpawned;
         public static event Action<Building> OnServerBuildingDespawned;
@@ -25,6 +27,7 @@ namespace Buildings
         public GameObject BuildingPreview => buildingPreview;
         public int BuildLimit => buildLimit;
         public string UnitName => unitName;
+        public bool IsGatherer => isGatherer;
 
         #region Server
 

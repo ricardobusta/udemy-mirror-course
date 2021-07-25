@@ -33,7 +33,7 @@ namespace Menus
             _currentBuildButton = button;
             var building = button.Building;
             buildingHandler.SetBuilding(building.Id, building.BuildingPreview, building.Price,
-                building.GetComponent<BoxCollider>());
+                building.GetComponent<BoxCollider>(), building.IsGatherer);
         }
 
         private void ClearButton()

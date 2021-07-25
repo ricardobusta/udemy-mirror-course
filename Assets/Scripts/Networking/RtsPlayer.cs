@@ -21,6 +21,8 @@ namespace Networking
         [SerializeField] private int initialResources;
         [SerializeField] private LayerMask buildingBlockLayer;
         [SerializeField] private float buildingRangeLimit;
+        [SerializeField] private float resourceRangeLimit;
+        
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private int maxUnitBuildLimit;
 
@@ -142,7 +144,7 @@ namespace Networking
                 return;
             }
             
-            if (!CanPlaceBuilding(buildingToPlace.GetComponent<BoxCollider>(), position, buildingToPlace.Price))
+            if (!CanPlaceBuilding(buildingToPlace.GetComponent<BoxCollider>(), position, buildingToPlace.Price, buildingToPlace.IsGatherer))
             {
                 return;
             }
@@ -336,9 +338,16 @@ namespace Networking
 
         #endregion Client
         
-        public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 position, int price)
+        public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 position, int price, bool isGatherer)
         {
             if (Resources < price)
+            {
+                return false;
+            }
+
+            if (!(isGatherer ^ !ResourceSource.resources.Any(source =>
+                (position - source.transform.position).sqrMagnitude
+                <= resourceRangeLimit * resourceRangeLimit)))
             {
                 return false;
             }

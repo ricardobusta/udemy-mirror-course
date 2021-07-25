@@ -30,6 +30,7 @@ namespace Menus
         private int _buildingPrice;
         private readonly Dictionary<int, Building> _buildingMap = new Dictionary<int, Building>();
         private EventSystem _eventSystem;
+        private bool _isGatherer;
 
         public event Action StartPlacingBuilding;
         public event Action StopPlacingBuilding;
@@ -60,7 +61,7 @@ namespace Menus
             RtsPlayer.buildingMap = _buildingMap;
         }
 
-        public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab, int price, BoxCollider collider)
+        public void SetBuilding(int buildingId, GameObject buildingPreviewPrefab, int price, BoxCollider collider, bool isGatherer)
         {
             StopBuilding();
             _buildingPreview = Instantiate(buildingPreviewPrefab);
@@ -68,6 +69,7 @@ namespace Menus
             _buildingId = buildingId;
             _buildingPrice = price;
             _buildingCollider = collider;
+            _isGatherer = isGatherer;
             _buildingPreviewRenderers.AddRange(_buildingPreview.GetComponentsInChildren<Renderer>());
             StartPlacingBuilding?.Invoke();
         }
@@ -140,7 +142,7 @@ namespace Menus
             _buildingPreview.transform.position = hit.point;
             buildAreaCircle.transform.position = new Vector3(hit.point.x, 0.1f, hit.point.z) ;
             
-            var mat = _player.CanPlaceBuilding(_buildingCollider, hit.point, _buildingPrice)
+            var mat = _player.CanPlaceBuilding(_buildingCollider, hit.point, _buildingPrice, _isGatherer)
                 ? validMaterial
                 : invalidMaterial;
             foreach (var previewRenderer in _buildingPreviewRenderers)

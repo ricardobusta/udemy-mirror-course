@@ -37,7 +37,7 @@ namespace Networking
         public List<RtsPlayer> Players { get; } = new List<RtsPlayer>();
 
         private bool _isGameInProgress;
-
+        
         #region Server
 
         public override void OnServerConnect(NetworkConnection conn)
@@ -149,7 +149,7 @@ namespace Networking
                     }
                 }
             }
-
+            
             base.OnServerSceneChanged(sceneName);
         }
 

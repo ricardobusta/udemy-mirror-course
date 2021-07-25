@@ -164,6 +164,10 @@ PrefabInstance:
       propertyPath: unitName
       value: Gatherer
       objectReference: {fileID: 0}
+    - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: isGatherer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1831839279365713625, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_RootOrder
       value: 0
