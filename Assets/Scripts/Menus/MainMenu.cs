@@ -37,6 +37,8 @@ namespace Menus
 
         [Header("Lobby Menu")] [SerializeField]
         private Button lobbyMenuBackButton;
+        [SerializeField] private Button copySteamIdButton;
+        
 
         [SerializeField] private Button startGameButton;
 
@@ -57,6 +59,8 @@ namespace Menus
         private void Start()
         {
             _menus = new List<GameObject> {homeMenu, joinMenu, lobbyMenu};
+            
+            copySteamIdButton.gameObject.SetActive(false);
 
             playerName.text = PlayerPrefs.GetString(PLAYER_NAME_PLAYER_PREF, "Player"); 
             SetPlayerName(playerName.text);
@@ -200,6 +204,7 @@ namespace Menus
 
         private void StartIpHost()
         {
+            copySteamIdButton.gameObject.SetActive(false);
             IEnumerator StartHostRoutine()
             {
                 ReplaceNetworkManager(kcpNetworkManager);
@@ -235,6 +240,8 @@ namespace Menus
             var steamUserId = SteamUser.GetSteamID();
             var steamName = SteamFriends.GetFriendPersonaName(steamUserId);
             SetPlayerName(steamName);
+            copySteamIdButton.gameObject.SetActive(true);
+            copySteamIdButton.onClick.AddListener(() => { GUIUtility.systemCopyBuffer = steamUserId.ToString();});
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "HostAddress",
                 steamUserId.ToString());
             NetworkManager.singleton.StartHost();

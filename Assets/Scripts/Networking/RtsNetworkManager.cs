@@ -177,21 +177,6 @@ namespace Networking
             SceneManager.LoadScene("Menu");
         }
 
-        public override void Awake()
-        {
-            base.Awake();
-            if (USE_STEAM)
-            {
-                GetComponent<KcpTransport>().enabled = false;
-                transport = gameObject.AddComponent<FizzySteamworks>();
-                gameObject.AddComponent<SteamManager>();
-            }
-            else
-            {
-                
-            }
-        }
-
         #endregion Client
     }
 }
