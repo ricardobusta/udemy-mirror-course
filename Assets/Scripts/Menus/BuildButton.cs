@@ -9,14 +9,18 @@ namespace Menus
     public class BuildButton : MonoBehaviour
     {
         [SerializeField] private Building building;
+        [SerializeField] private TMP_Text buildingName;
+
         [SerializeField] private Button button;
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text price;
-        [Header("Regular Color")]
-        [SerializeField] private ColorBlock regularColor;
-        [Header("SelectedColor")]
-        [SerializeField] private ColorBlock selectedColor;
-        
+
+        [Header("Regular Color")] [SerializeField]
+        private ColorBlock regularColor;
+
+        [Header("SelectedColor")] [SerializeField]
+        private ColorBlock selectedColor;
+
         public event Action<BuildButton> OnButtonClicked;
 
         private bool _selected;
@@ -30,6 +34,8 @@ namespace Menus
             price.text = $"$ {setBuilding.Price}";
             ResetButton();
 
+            buildingName.text = building.UnitName;
+
             _selected = false;
 
             button.onClick.AddListener(() =>
@@ -38,6 +44,7 @@ namespace Menus
                 {
                     return;
                 }
+
                 OnButtonClicked?.Invoke(this);
                 button.colors = selectedColor;
                 _selected = true;

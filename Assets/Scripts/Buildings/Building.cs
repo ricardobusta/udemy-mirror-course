@@ -6,6 +6,7 @@ namespace Buildings
 {
     public class Building : NetworkBehaviour
     {
+        [SerializeField] private string unitName;
         [SerializeField] private GameObject buildingPreview;
         [SerializeField] private Sprite icon;
         [SerializeField] private int id = -1;
@@ -22,7 +23,8 @@ namespace Buildings
         public int Id => id;
         public int Price => price;
         public GameObject BuildingPreview => buildingPreview;
-        public int BuildLimit =>buildLimit;
+        public int BuildLimit => buildLimit;
+        public string UnitName => unitName;
 
         #region Server
 

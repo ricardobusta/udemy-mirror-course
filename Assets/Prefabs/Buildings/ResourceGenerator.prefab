@@ -30,24 +30,6 @@ Transform:
   m_Father: {fileID: 1589587869065767835}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-91684867258113506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8592932276092425633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f154ec904e4b46b7907b4f7ae0bb48ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: {fileID: 1657015269806098374}
-  resourcesGenerated: 100
-  generationCooldown: 1
-  progressCounter: {fileID: 5648161365499537112}
 --- !u!1 &2290236393346110261
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +111,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-91684867258113506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8592932276092425633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f154ec904e4b46b7907b4f7ae0bb48ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: {fileID: 1657015269806098374}
+  resourcesGenerated: 100
+  generationCooldown: 1
+  progressCounter: {fileID: 5648161365499537112}
 --- !u!1001 &1108828480463439170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,6 +159,10 @@ PrefabInstance:
     - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: price
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: unitName
+      value: Gatherer
       objectReference: {fileID: 0}
     - target: {fileID: 1831839279365713625, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: m_RootOrder

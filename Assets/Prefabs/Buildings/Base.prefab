@@ -501,6 +501,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
+      propertyPath: unitName
+      value: Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773038315658120950, guid: 352ea501adf87174cb3175f552f541ec, type: 3}
       propertyPath: buildLimit
       value: 5
       objectReference: {fileID: 0}
