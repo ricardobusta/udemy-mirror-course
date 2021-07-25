@@ -4392,6 +4392,7 @@ MonoBehaviour:
   homeMenuHostSteamButton: {fileID: 655904551}
   homeMenuJoinIpButton: {fileID: 1045863563}
   homeMenuJoinSteamButton: {fileID: 2057655301}
+  quitGameButton: {fileID: 571870441}
   joinMenuJoinButton: {fileID: 1700133817}
   joinMenuBackButton: {fileID: 352062643}
   addressInput: {fileID: 1237613902}

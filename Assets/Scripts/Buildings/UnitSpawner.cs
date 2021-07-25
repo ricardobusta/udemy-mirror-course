@@ -29,12 +29,20 @@ namespace Buildings
         private RtsPlayer _player;
         private bool _playerSet;
         private EventSystem _eventSystem;
-        
+
         #region Server
 
         public override void OnStartServer()
         {
             health.ServerOnDie += ServerHandleOnDie;
+
+            if (connectionToClient == null || connectionToClient.identity == null)
+            {
+                return;
+            }
+
+            _player = connectionToClient.identity.GetComponent<RtsPlayer>();
+            _playerSet = _player != null;
         }
 
         public override void OnStopServer()
@@ -49,7 +57,7 @@ namespace Buildings
             {
                 return;
             }
-            
+
             if (queuedUnits == 0)
             {
                 return;
@@ -66,7 +74,7 @@ namespace Buildings
             {
                 return;
             }
-            
+
             var (spawnPos, rallyPos, rotation) = GetSpawnInfo();
 
             var unitInstance = Instantiate(unitPrefab, spawnPos, rotation);
@@ -96,7 +104,7 @@ namespace Buildings
             {
                 return;
             }
-            
+
             if (_player.Resources < unitPrefab.ResourceCost)
             {
                 return;
@@ -129,7 +137,7 @@ namespace Buildings
 
             return (spawnPosition, rallyPosition, rotation);
         }
-        
+
         [ServerCallback]
         private void Update()
         {
@@ -146,7 +154,7 @@ namespace Buildings
             {
                 return;
             }
-            
+
             if (_eventSystem.IsPointerOverUIObject(eventData))
             {
                 return;
@@ -175,10 +183,7 @@ namespace Buildings
 
         private void Start()
         {
-            _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
-            _playerSet = _player!=null;
             _eventSystem = EventSystem.current;
-
             if (hasAuthority)
             {
                 progressCounter.SetPrice(unitPrefab.ResourceCost);
@@ -187,7 +192,6 @@ namespace Buildings
             {
                 progressCounter.gameObject.SetActive(false);
             }
-            
         }
     }
 }

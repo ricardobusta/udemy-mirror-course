@@ -14,7 +14,6 @@ namespace Buildings
         [SerializeField] private int buildLimit;
         [SerializeField] private bool isGatherer;
         
-        
         public static event Action<Building> OnServerBuildingSpawned;
         public static event Action<Building> OnServerBuildingDespawned;
    
