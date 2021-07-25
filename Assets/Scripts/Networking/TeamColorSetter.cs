@@ -19,8 +19,13 @@ namespace Networking
 
         public override void OnStartServer()
         {
+            if (connectionToClient == null || connectionToClient.identity == null)
+            {
+                teamColor = RtsPlayer.NeutralColor;
+                return;
+            }
             var player = connectionToClient.identity.GetComponent<RtsPlayer>();
-            teamColor = RtsPlayer.TEAM_COLORS[player.TeamColor % RtsPlayer.TEAM_COLORS.Length];
+            teamColor = RtsPlayer.TeamColors[player.TeamColor % RtsPlayer.TeamColors.Length];
         }
 
         private void HandleTeamColorUpdate(Color oldColor, Color newColor)

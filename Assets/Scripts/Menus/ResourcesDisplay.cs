@@ -15,6 +15,7 @@ namespace Menus
 
         private void Start()
         {
+            if (NetworkClient.connection == null) return;
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
             _player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;

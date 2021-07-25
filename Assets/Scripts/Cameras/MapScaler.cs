@@ -20,6 +20,7 @@ namespace Cameras
             miniMap.SetScale(scale);
             miniMapCamera.orthographicSize = scale;
 
+            if (NetworkClient.connection == null) return;
             var player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             player.GetComponent<CameraController>().SetScreenLimits(-scale, -scale, scale, scale);
         }

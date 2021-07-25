@@ -10,14 +10,16 @@ namespace Combat
         [SerializeField] private float destroyAfterSeconds;
         [SerializeField] private float launchForce;
 
-        private void Start()
-        {
-            rigidbody.velocity = transform.forward * launchForce;
-        }
-
         public override void OnStartServer()
         {
             Invoke(nameof(DestroySelf), destroyAfterSeconds);
+        }
+
+        [ServerCallback]
+        private void Update()
+        {
+            var tr = transform;
+            tr.position += tr.forward * (launchForce * Time.deltaTime);
         }
 
         [ServerCallback]

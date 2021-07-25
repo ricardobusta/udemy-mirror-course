@@ -52,7 +52,7 @@ namespace Menus
         
         private void OnPlayerMessageReceived(RtsPlayer player, string message)
         {
-            var completeMessage = $"[<color=#{ColorUtility.ToHtmlStringRGB(RtsPlayer.TEAM_COLORS[player.TeamColor])}>{player.DisplayName}</color>]: {message}\n";
+            var completeMessage = $"[<color=#{ColorUtility.ToHtmlStringRGB(RtsPlayer.TeamColors[player.TeamColor])}>{player.DisplayName}</color>]: {message}\n";
             StartCoroutine(AppendAndScroll(completeMessage));
         }
 

@@ -10,7 +10,13 @@ namespace Networking
 {
     public class RtsPlayer : NetworkBehaviour
     {
-        public static readonly Color[] TEAM_COLORS = {Color.red, Color.blue, Color.green, Color.yellow};
+        public static readonly Color[] TeamColors = {
+            new Color(0.9f, 0.1f,0.1f), 
+            new Color(0.1f, 0.1f, 0.9f), 
+            new Color(0.1f, 0.9f, 0.1f), 
+            new Color(0.9f, 0.8f, 0.1f)
+        };
+        public static readonly Color NeutralColor = new Color(0.5f,0.3f,0.3f);
 
         [SerializeField] private int initialResources;
         [SerializeField] private LayerMask buildingBlockLayer;
@@ -219,7 +225,7 @@ namespace Networking
 
         private bool BelongsToPlayer(NetworkBehaviour entity)
         {
-            return entity.connectionToClient.connectionId == connectionToClient.connectionId;
+            return entity.connectionToClient != null && entity.connectionToClient.connectionId == connectionToClient.connectionId;
         }
 
         [Command]

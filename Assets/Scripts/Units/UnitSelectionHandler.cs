@@ -34,6 +34,7 @@ namespace Units
 
             GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
 
+            if (NetworkClient.connection == null) return;
             _player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerSet = _player!=null;
         }

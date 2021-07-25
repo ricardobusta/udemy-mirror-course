@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 5733740461431920088}
   counter: {fileID: 3113168624607107118}
-  price: {fileID: 0}
+  price: {fileID: 4612976147305919339}
 --- !u!1 &2292235690880163850
 GameObject:
   m_ObjectHideFlags: 0

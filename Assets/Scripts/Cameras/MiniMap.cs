@@ -17,6 +17,7 @@ namespace Cameras
 
         private void Start()
         {
+            if (NetworkClient.connection == null) return;
             var player = NetworkClient.connection.identity.GetComponent<RtsPlayer>();
             _playerCameraTransform = player.CameraTransform;
         }

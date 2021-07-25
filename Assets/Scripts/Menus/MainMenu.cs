@@ -193,7 +193,7 @@ namespace Menus
                 var player = isPlayer ? players[i] : null;
                 playerNameTexts[i].text = isPlayer ? player.DisplayName : "Waiting for player...";
                 playerColorDisplays[i].color = isPlayer
-                    ? RtsPlayer.TEAM_COLORS[player.TeamColor % RtsPlayer.TEAM_COLORS.Length]
+                    ? RtsPlayer.TeamColors[player.TeamColor % RtsPlayer.TeamColors.Length]
                     : Color.black;
             }
         }

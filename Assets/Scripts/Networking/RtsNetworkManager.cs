@@ -115,19 +115,38 @@ namespace Networking
 
                 NetworkServer.Spawn(gameOverHandler.gameObject);
 
-                var indexes = Enumerable.Range(0, startPositions.Count).ToList();
+                var playerSpawners = FindObjectsOfType<PlayerSpawner>();
+                
+                var indexes = Enumerable.Range(0, playerSpawners.Length).ToList();
                 indexes.Shuffle();
                 var i = 0;
 
                 foreach (var player in Players)
                 {
-                    var startPositionTransform = startPositions[indexes[i++]];
-                    var startPosition = startPositionTransform.position;
+                    var playerSpawner = playerSpawners[indexes[i++]];
+                    var playerSpawnerTransform = playerSpawner.transform;
+                    var startPosition = playerSpawnerTransform.position;
                     player.transform.position = startPosition;
-                    Debug.Log($"player {player.netId} starting position is {startPositionTransform}");
-                    var baseInstance = Instantiate(unitBasePrefab, startPosition, startPositionTransform.rotation);
-
+                    var baseInstance = Instantiate(playerSpawner.unitPrefab, startPosition, Quaternion.identity);
                     NetworkServer.Spawn(baseInstance, player.connectionToClient);
+
+                    foreach (var unit in playerSpawner.unitSpawners)
+                    {
+                        var tr = unit.transform;
+                        var unitInstance = Instantiate(unit.unitPrefab, tr.position, Quaternion.identity);
+                        NetworkServer.Spawn(unitInstance, player.connectionToClient);
+                    }
+                }
+
+                var neutralUnitSpawners = FindObjectsOfType<NeutralUnitSpawner>();
+                foreach (var spawner in neutralUnitSpawners)
+                {
+                    var tr = spawner.transform;
+                    var unitInstance = Instantiate(spawner.unitPrefab, tr.position, tr.rotation);
+                    if (unitInstance)
+                    {
+                        NetworkServer.Spawn(unitInstance);
+                    }
                 }
             }
 

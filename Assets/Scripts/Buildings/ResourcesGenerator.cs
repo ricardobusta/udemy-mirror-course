@@ -23,7 +23,10 @@ namespace Buildings
             health.ServerOnDie += ServerHandleDie;
             GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
             _currentCooldown = generationCooldown;
-            _player = connectionToClient.identity.GetComponent<RtsPlayer>();
+            if (connectionToClient != null && connectionToClient.identity != null)
+            {
+                _player = connectionToClient.identity.GetComponent<RtsPlayer>();
+            }
         }
 
         public override void OnStopServer()
@@ -44,7 +47,10 @@ namespace Buildings
 
             _currentCooldown = generationCooldown;
             progressCounter.SetValue(0);
-            _player.AddResources(resourcesGenerated);
+            if (_player)
+            {
+                _player.AddResources(resourcesGenerated);
+            }
         }
 
         private void ServerHandleDie()
